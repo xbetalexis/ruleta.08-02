@@ -13,7 +13,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: 'Arial', sans-serif;
+  font-family: Arial, sans-serif;
 }
 
 .app {
@@ -33,11 +33,12 @@ body {
   margin: 10px auto 20px;
 }
 
+/* 🔻 FLECHA ABAJO */
 .flecha {
   position: absolute;
-  top: -18px;
+  bottom: -18px;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translateX(-50%) rotate(180deg);
   width: 0;
   height: 0;
   border-left: 14px solid transparent;
@@ -83,8 +84,8 @@ button:disabled {
 
 <div class="app">
   <div class="ruleta-container">
-    <div class="flecha"></div>
     <canvas id="ruleta" width="280" height="280"></canvas>
+    <div class="flecha"></div>
   </div>
 
   <button id="girar">ROTATE</button>
@@ -92,7 +93,7 @@ button:disabled {
 </div>
 
 <script>
-/* 👉 ACA CARGÁS LOS NOMBRES (REPETÍ PARA MÁS CHANCES) */
+/* 👉 ACA CARGÁS LOS NOMBRES */
 const participantes = [
   "Juan", "Juan", "Juan",
   "Pedro", "Pedro",
@@ -150,8 +151,10 @@ boton.addEventListener("click", () => {
 
   const indice = Math.floor(Math.random() * total);
   const gradosPorSector = 360 / total;
+
+  // 🔻 Ajuste para flecha abajo
   const objetivo =
-    360 - (indice * gradosPorSector + gradosPorSector / 2);
+    180 - (indice * gradosPorSector + gradosPorSector / 2);
 
   const vueltas = 6 * 360;
   const anguloFinal = vueltas + objetivo;
