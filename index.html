@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Ruleta de Premios</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+  margin: 0;
+  height: 100vh;
+  background: radial-gradient(circle at top, #111, #000);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: Arial, sans-serif;
+  color: white;
+}
+
+.container {
+  text-align: center;
+}
+
+h1 {
+  margin-bottom: 20px;
+  font-size: 2rem;
+  text-shadow: 0 0 10px #00eaff;
+}
+
+.ruleta-container {
+  position: relative;
+  width: 300px;
+  height: 300px;
+  margin: auto;
+}
+
+.ruleta {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 10px solid #00eaff;
+  background: conic-gradient(
+    #ff004c 0deg 60deg,
+    #00eaff 60deg 120deg,
+    #ffcc00 120deg 180deg,
+    #ff004c 180deg 240deg,
+    #00eaff 240deg 300deg,
+    #ffcc00 300deg 360deg
+  );
+  box-shadow:
+    inset 0 0 20px rgba(255,255,255,0.2),
+    0 0 25px #00eaff;
+  transition: transform 5s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+.flecha {
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 15px solid transparent;
+  border-right: 15px solid transparent;
+  border-bottom: 30px solid #ff004c;
+}
+
+button {
+  margin-top: 30px;
+  padding: 15px 40px;
+  font-size: 1.2rem;
+  background: linear-gradient(45deg, #00eaff, #0077ff);
+  border: none;
+  border-radius: 30px;
+  color: #000;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 0 15px #00eaff;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.resultado {
+  margin-top: 20px;
+  font-size: 1.3rem;
+  text-shadow: 0 0 10px #ffcc00;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <h1>🎰 RULETA DE PREMIOS 🎰</h1>
+
+  <div class="ruleta-container">
+    <div class="flecha"></div>
+    <div id="ruleta" class="ruleta"></div>
+  </div>
+
+  <button id="girar">GIRAR RULETA</button>
+
+  <div id="resultado" class="resultado"></div>
+</div>
+
+<script>
+const nombres = [
+  "Juan",
+  "Pedro",
+  "Lucas",
+  "María",
+  "Ana",
+  "Carlos"
+];
+
+const ruleta = document.getElementById("ruleta");
+const boton = document.getElementById("girar");
+const resultado = document.getElementById("resultado");
+
+let girando = false;
+
+boton.addEventListener("click", () => {
+  if (girando) return;
+  girando = true;
+  boton.disabled = true;
+  resultado.textContent = "";
+
+  const vueltas = Math.floor(Math.random() * 5) + 5;
+  const angulo = Math.floor(Math.random() * 360);
+  const total = vueltas * 360 + angulo;
+
+  ruleta.style.transform = `rotate(${total}deg)`;
+
+  setTimeout(() => {
+    const sector = Math.floor(((360 - (angulo % 360)) / 360) * nombres.length);
+    const ganador = nombres[sector] || nombres[0];
+
+    resultado.textContent = `🎉 GANADOR: ${ganador}`;
+    girando = false;
+    boton.disabled = false;
+  }, 5000);
+});
+</script>
+
+</body>
+</html>
