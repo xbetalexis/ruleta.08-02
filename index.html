@@ -6,83 +6,79 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-body {
-  margin: 0;
-  min-height: 100vh;
-  background: linear-gradient(180deg, #2b0040, #12001f);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-family: Arial, sans-serif;
+body{
+  margin:0;
+  min-height:100vh;
+  background:linear-gradient(180deg,#2b0040,#12001f);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:Arial,sans-serif;
 }
 
-.app {
-  width: 360px;
-  max-width: 95%;
-  background: linear-gradient(180deg, #3a005a, #220033);
-  border-radius: 25px;
-  padding: 20px 15px 25px;
-  box-shadow: 0 0 40px rgba(0,0,0,0.6);
-  text-align: center;
+.app{
+  width:360px;
+  max-width:95%;
+  background:linear-gradient(180deg,#3a005a,#220033);
+  border-radius:25px;
+  padding:20px 15px 25px;
+  box-shadow:0 0 40px rgba(0,0,0,.6);
+  text-align:center;
 }
 
-.ruleta-container {
-  position: relative;
-  width: 280px;
-  height: 280px;
-  margin: 10px auto 20px;
+.ruleta-container{
+  position:relative;
+  width:280px;
+  height:280px;
+  margin:10px auto 20px;
 }
 
-/* 🔻 FLECHA ARRIBA – PUNTA HACIA ABAJO (CORRECTO) */
-.flecha {
-  position: absolute;
-  top: -18px;              /* arriba del círculo */
-  left: 50%;
-  transform: translateX(-50%);
-  width: 0;
-  height: 0;
-  border-left: 14px solid transparent;
-  border-right: 14px solid transparent;
-  border-top: 0;
-  border-bottom: 26px solid #ffb000; /* punta hacia abajo */
-  z-index: 10;
+/* 🔻 FLECHA ARRIBA, PUNTA HACIA ABAJO */
+.flecha{
+  position:absolute;
+  top:-16px;
+  left:50%;
+  transform:translateX(-50%);
+  width:0;
+  height:0;
+  border-left:14px solid transparent;
+  border-right:14px solid transparent;
+  border-bottom:24px solid #222;
+  z-index:10;
 }
 
-canvas {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  background: #fff;
+canvas{
+  width:100%;
+  height:100%;
+  border-radius:50%;
+  background:#fff;
 }
 
-button {
-  width: 85%;
-  padding: 14px;
-  font-size: 1.1rem;
-  border-radius: 30px;
-  border: none;
-  background: linear-gradient(45deg, #ff9f00, #ff6a00);
-  color: #fff;
-  font-weight: bold;
-  cursor: pointer;
-  box-shadow: 0 0 20px rgba(255,140,0,0.6);
+button{
+  width:85%;
+  padding:14px;
+  font-size:1.1rem;
+  border-radius:30px;
+  border:none;
+  background:linear-gradient(45deg,#ff9f00,#ff6a00);
+  color:#fff;
+  font-weight:bold;
+  cursor:pointer;
+  box-shadow:0 0 20px rgba(255,140,0,.6);
 }
 
-button:disabled {
-  opacity: 0.6;
-}
+button:disabled{opacity:.6}
 
-.resultado {
-  margin-top: 15px;
-  font-size: 1.3rem;
-  color: #ffd86a;
-  text-shadow: 0 0 10px rgba(255,216,106,0.8);
+.resultado{
+  margin-top:15px;
+  font-size:1.3rem;
+  color:#ffd86a;
+  text-shadow:0 0 10px rgba(255,216,106,.8);
 }
 </style>
 </head>
 
 <body>
-
 <div class="app">
   <div class="ruleta-container">
     <div class="flecha"></div>
@@ -94,13 +90,23 @@ button:disabled {
 </div>
 
 <script>
-/* 👉 ACÁ CARGÁS LOS NOMBRES (repetí para más chances) */
+/* 👉 CARGÁ LOS NOMBRES (repetí para más chances) */
 const participantes = [
-  "Juan", "Juan", "Juan",
-  "Pedro", "Pedro",
-  "Lucas",
-  "Ana",
-  "Carlos"
+  "Daniel",
+  "Marlon",
+  "Spencer",
+  "Katharine",
+  "Bette",
+  "Jack",
+  "Ingrid",
+  "Denzel",
+  "Gary",
+  "Meryl",
+  "Cate",
+  "Robert",
+  "Dustin",
+  "Jessica",
+  "Jane"
 ];
 
 const canvas = document.getElementById("ruleta");
@@ -111,84 +117,88 @@ const resultado = document.getElementById("resultado");
 const total = participantes.length;
 const radio = canvas.width / 2;
 const colores = [
-  "#ff595e", "#ffca3a", "#8ac926",
-  "#1982c4", "#6a4c93", "#ff924c"
+  "#ff595e","#ffca3a","#8ac926",
+  "#1982c4","#6a4c93","#ff924c"
 ];
 
 let anguloActual = 0;
 let girando = false;
 
-function dibujarRuleta() {
-  const angulo = (2 * Math.PI) / total;
+/* 🔵 DIBUJO */
+function dibujarRuleta(){
+  const angulo = (2*Math.PI)/total;
 
-  participantes.forEach((nombre, i) => {
-    const inicio = i * angulo;
-    const fin = inicio + angulo;
+  participantes.forEach((nombre,i)=>{
+    const inicio = i*angulo;
+    const fin = inicio+angulo;
 
     ctx.beginPath();
-    ctx.moveTo(radio, radio);
-    ctx.arc(radio, radio, radio, inicio, fin);
-    ctx.fillStyle = colores[i % colores.length];
+    ctx.moveTo(radio,radio);
+    ctx.arc(radio,radio,radio,inicio,fin);
+    ctx.fillStyle = colores[i%colores.length];
     ctx.fill();
 
     ctx.save();
-    ctx.translate(radio, radio);
-    ctx.rotate(inicio + angulo / 2);
-    ctx.textAlign = "right";
-    ctx.fillStyle = "#fff";
-    ctx.font = "bold 12px Arial";
-    ctx.fillText(nombre, radio - 10, 4);
+    ctx.translate(radio,radio);
+    ctx.rotate(inicio + angulo/2);
+    ctx.textAlign="right";
+    ctx.fillStyle="#fff";
+    ctx.font="bold 12px Arial";
+    ctx.fillText(nombre, radio-10, 4);
     ctx.restore();
   });
 }
 
 dibujarRuleta();
 
-boton.addEventListener("click", () => {
-  if (girando) return;
-  girando = true;
-  boton.disabled = true;
-  resultado.textContent = "";
+/* 🧠 GIRO EXACTO AL PUNTO DE LA FLECHA */
+boton.addEventListener("click",()=>{
+  if(girando) return;
+  girando=true;
+  boton.disabled=true;
+  resultado.textContent="";
 
-  const indice = Math.floor(Math.random() * total);
-  const gradosPorSector = 360 / total;
+  const indice = Math.floor(Math.random()*total);
+  const gradosPorSector = 360/total;
 
-  /* 🔥 CÁLCULO CORRECTO PARA FLECHA ARRIBA */
-  const objetivo =
-    360 - (indice * gradosPorSector + gradosPorSector / 2);
+  /*
+    La flecha está en 270° (arriba).
+    Centramos el sector ganador EXACTO ahí.
+  */
+  const anguloObjetivo =
+    270 - (indice*gradosPorSector + gradosPorSector/2);
 
-  const vueltas = 6 * 360;
-  const anguloFinal = vueltas + objetivo;
+  const vueltas = 6*360;
+  const anguloFinal = vueltas + anguloObjetivo;
 
   const duracion = 5000;
   const inicio = performance.now();
   const inicioAngulo = anguloActual;
 
-  function animar(t) {
-    const progreso = Math.min((t - inicio) / duracion, 1);
-    const ease = 1 - Math.pow(1 - progreso, 3);
-    anguloActual = inicioAngulo + ease * (anguloFinal - inicioAngulo);
+  function animar(t){
+    const p = Math.min((t-inicio)/duracion,1);
+    const ease = 1 - Math.pow(1-p,3);
+    anguloActual = inicioAngulo + ease*(anguloFinal-inicioAngulo);
 
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.clearRect(0,0,canvas.width,canvas.height);
     ctx.save();
-    ctx.translate(radio, radio);
-    ctx.rotate((anguloActual * Math.PI) / 180);
-    ctx.translate(-radio, -radio);
+    ctx.translate(radio,radio);
+    ctx.rotate(anguloActual*Math.PI/180);
+    ctx.translate(-radio,-radio);
     dibujarRuleta();
     ctx.restore();
 
-    if (progreso < 1) {
+    if(p<1){
       requestAnimationFrame(animar);
-    } else {
+    }else{
       resultado.textContent = `🎉 GANADOR: ${participantes[indice]}`;
-      girando = false;
-      boton.disabled = false;
+      girando=false;
+      boton.disabled=false;
     }
   }
 
   requestAnimationFrame(animar);
 });
 </script>
-
 </body>
 </html>
