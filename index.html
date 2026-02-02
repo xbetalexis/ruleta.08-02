@@ -23,7 +23,6 @@ body {
 
 h1 {
   margin-bottom: 20px;
-  font-size: 2rem;
   text-shadow: 0 0 10px #00eaff;
 }
 
@@ -47,9 +46,7 @@ h1 {
     #00eaff 240deg 300deg,
     #ffcc00 300deg 360deg
   );
-  box-shadow:
-    inset 0 0 20px rgba(255,255,255,0.2),
-    0 0 25px #00eaff;
+  box-shadow: inset 0 0 20px rgba(255,255,255,0.2), 0 0 25px #00eaff;
   transition: transform 5s cubic-bezier(0.25, 0.1, 0.25, 1);
 }
 
@@ -66,26 +63,19 @@ h1 {
 }
 
 button {
-  margin-top: 30px;
-  padding: 15px 40px;
-  font-size: 1.2rem;
+  margin-top: 25px;
+  padding: 14px 35px;
+  font-size: 1.1rem;
   background: linear-gradient(45deg, #00eaff, #0077ff);
   border: none;
   border-radius: 30px;
-  color: #000;
   font-weight: bold;
   cursor: pointer;
-  box-shadow: 0 0 15px #00eaff;
-}
-
-button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
 }
 
 .resultado {
   margin-top: 20px;
-  font-size: 1.3rem;
+  font-size: 1.4rem;
   text-shadow: 0 0 10px #ffcc00;
 }
 </style>
@@ -107,26 +97,16 @@ button:disabled {
 </div>
 
 <script>
-const nombres = [
-  "Juan",
-  "Pedro",
-  "Lucas",
-  "María",
-  "Ana",
-  "Carlos"
-];
-
 const ruleta = document.getElementById("ruleta");
 const boton = document.getElementById("girar");
 const resultado = document.getElementById("resultado");
 
-let girando = false;
-
-boton.addEventListener("click", () => {
-  if (girando) return;
-  girando = true;
+boton.addEventListener("click", async () => {
   boton.disabled = true;
   resultado.textContent = "";
+
+  const res = await fetch("/api/girar");
+  const data = await res.json();
 
   const vueltas = Math.floor(Math.random() * 5) + 5;
   const angulo = Math.floor(Math.random() * 360);
@@ -135,11 +115,7 @@ boton.addEventListener("click", () => {
   ruleta.style.transform = `rotate(${total}deg)`;
 
   setTimeout(() => {
-    const sector = Math.floor(((360 - (angulo % 360)) / 360) * nombres.length);
-    const ganador = nombres[sector] || nombres[0];
-
-    resultado.textContent = `🎉 GANADOR: ${ganador}`;
-    girando = false;
+    resultado.textContent = `🎉 GANADOR: ${data.ganador}`;
     boton.disabled = false;
   }, 5000);
 });
