@@ -33,17 +33,17 @@ body{
   margin:10px auto 20px;
 }
 
-/* 🔻 FLECHA ARRIBA, PUNTA HACIA ABAJO */
+/* 🔻 FLECHA ARRIBA – PUNTA HACIA ABAJO (∇) */
 .flecha{
   position:absolute;
-  top:-16px;
+  top:-2px;                 /* la punta toca la ruleta */
   left:50%;
   transform:translateX(-50%);
   width:0;
   height:0;
   border-left:14px solid transparent;
   border-right:14px solid transparent;
-  border-bottom:24px solid #222;
+  border-top:24px solid #222; /* ∇ */
   z-index:10;
 }
 
@@ -79,6 +79,7 @@ button:disabled{opacity:.6}
 </head>
 
 <body>
+
 <div class="app">
   <div class="ruleta-container">
     <div class="flecha"></div>
@@ -90,7 +91,7 @@ button:disabled{opacity:.6}
 </div>
 
 <script>
-/* 👉 CARGÁ LOS NOMBRES (repetí para más chances) */
+/* 👉 ACÁ CARGÁS LOS NOMBRES (repetí para más chances) */
 const participantes = [
   "Daniel",
   "Marlon",
@@ -124,7 +125,6 @@ const colores = [
 let anguloActual = 0;
 let girando = false;
 
-/* 🔵 DIBUJO */
 function dibujarRuleta(){
   const angulo = (2*Math.PI)/total;
 
@@ -151,7 +151,6 @@ function dibujarRuleta(){
 
 dibujarRuleta();
 
-/* 🧠 GIRO EXACTO AL PUNTO DE LA FLECHA */
 boton.addEventListener("click",()=>{
   if(girando) return;
   girando=true;
@@ -161,10 +160,7 @@ boton.addEventListener("click",()=>{
   const indice = Math.floor(Math.random()*total);
   const gradosPorSector = 360/total;
 
-  /*
-    La flecha está en 270° (arriba).
-    Centramos el sector ganador EXACTO ahí.
-  */
+  /* 🎯 Flecha arriba (270°), sector centrado */
   const anguloObjetivo =
     270 - (indice*gradosPorSector + gradosPorSector/2);
 
@@ -200,5 +196,6 @@ boton.addEventListener("click",()=>{
   requestAnimationFrame(animar);
 });
 </script>
+
 </body>
 </html>
