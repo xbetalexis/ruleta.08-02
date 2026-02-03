@@ -45,25 +45,48 @@ body{
 .ad-title{font-weight:bold;font-size:11px}
 .ad-sub{font-size:9px;opacity:.7}
 
-/* fake video */
-.video{width:44px;height:80px;position:relative;border-radius:6px;overflow:hidden}
-.video-frame{position:absolute;inset:0;transition:opacity .4s}
-.frame1{background:linear-gradient(135deg,#444,#666)}
-.frame2{
-  background:
-    linear-gradient(135deg,#222,#444),
-    repeating-linear-gradient(
-      45deg,
-      rgba(255,255,255,.06),
-      rgba(255,255,255,.06) 6px,
-      transparent 6px,
-      transparent 12px
-    );
+/* ===== FAKE VIDEO CON PREVIEWS ===== */
+.video{
+  width:44px;height:80px;
+  position:relative;
+  border-radius:6px;
+  overflow:hidden;
+  background:#000;
 }
-.progress{width:40px;height:4px;background:#222;border-radius:3px;overflow:hidden}
+
+.video-frame{
+  position:absolute;
+  inset:0;
+  background-size:cover;
+  background-position:center;
+  filter:blur(1.2px) brightness(.8);
+  transition:opacity .4s;
+}
+
+/* preview 1 */
+.frame1{
+  background-image:
+    linear-gradient(rgba(0,0,0,.25),rgba(0,0,0,.25)),
+    url("https://picsum.photos/80/140?random=11");
+}
+
+/* preview 2 */
+.frame2{
+  background-image:
+    linear-gradient(rgba(0,0,0,.25),rgba(0,0,0,.25)),
+    url("https://picsum.photos/80/140?random=22");
+}
+
+.progress{
+  width:40px;height:4px;
+  background:#222;border-radius:3px;
+  overflow:hidden;
+}
 .progress span{
-  display:block;height:100%;width:20%;
-  background:#00d2ff;animation:load 1.5s infinite
+  display:block;height:100%;
+  width:20%;
+  background:#00d2ff;
+  animation:load 1.5s infinite;
 }
 @keyframes load{from{width:10%}to{width:90%}}
 
@@ -187,7 +210,7 @@ function rotarAds(){
 }
 setInterval(rotarAds,6000);rotarAds();
 
-/* frames video */
+/* alternar frames del video */
 setInterval(()=>{
   document.querySelectorAll(".video").forEach(v=>{
     const f1=v.children[0],f2=v.children[1];
@@ -198,11 +221,8 @@ setInterval(()=>{
 
 /* ===== PARTICIPANTES ===== */
 const baseParticipantes=[
-  "MILAGROS3140",
-  "KARY8538","KARY8538",
-  "MELI123",
-  "TOMAS4392","TOMAS4392",
-  "SOFY0405",
+  "MILAGROS3140","KARY8538","KARY8538","MELI123",
+  "TOMAS4392","TOMAS4392","SOFY0405",
   "ROBER51B","ROBER51B","ROBER51B","ROBER51B","ROBER51B",
   "ROBER51B","ROBER51B","ROBER51B","ROBER51B","ROBER51B",
   "MALE3515","MALE3515","MALE3515","MALE3515","MALE3515",
@@ -227,7 +247,6 @@ const baseParticipantes=[
   "GIME3471","GIME3471","GIME3471","GIME3471","GIME3471","GIME3471"
 ];
 
-/* intercalar */
 function intercalar(l){
   const c={},r=[];l.forEach(n=>c[n]=(c[n]||0)+1);
   let k=Object.keys(c),ok=true;
