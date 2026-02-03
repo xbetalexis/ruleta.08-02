@@ -10,14 +10,7 @@ body{
   margin:0;
   min-height:100vh;
   background: linear-gradient(
-    135deg,
-    #ff0000,
-    #ff7f00,
-    #ffff00,
-    #00ff00,
-    #00ffff,
-    #0000ff,
-    #8b00ff
+    135deg,#ff0000,#ff7f00,#ffff00,#00ff00,#00ffff,#0000ff,#8b00ff
   );
   display:flex;
   align-items:center;
@@ -31,7 +24,7 @@ body{
   gap:6px;
 }
 
-/* ===== ANUNCIOS REALISTAS ===== */
+/* ===== ANUNCIOS ===== */
 .fake-ad{
   width:62px;
   height:235px;
@@ -42,33 +35,8 @@ body{
   box-shadow:0 0 14px rgba(0,0,0,.7);
   position:relative;
   overflow:hidden;
-  animation: fade 3s infinite alternate;
-}
-
-.fake-ad::after{
-  content:"";
-  position:absolute;
-  top:-120%;
-  left:-60%;
-  width:220%;
-  height:220%;
-  background:linear-gradient(
-    120deg,
-    transparent 40%,
-    rgba(255,255,255,0.08) 50%,
-    transparent 60%
-  );
-  animation: shine 5s infinite;
-}
-
-@keyframes shine{
-  from{transform:translateY(0)}
-  to{transform:translateY(100%)}
-}
-
-@keyframes fade{
-  from{opacity:.75}
-  to{opacity:1}
+  display:flex;
+  flex-direction:column;
 }
 
 .ad-header{
@@ -78,13 +46,14 @@ body{
 }
 
 .ad-body{
+  flex:1;
   display:flex;
   flex-direction:column;
   align-items:center;
   justify-content:center;
-  height:175px;
   gap:6px;
   text-align:center;
+  transition:opacity .6s;
 }
 
 .ad-icon{
@@ -92,7 +61,6 @@ body{
   height:34px;
   border-radius:8px;
   background:linear-gradient(135deg,#3a7bd5,#00d2ff);
-  box-shadow:0 0 10px rgba(0,0,0,.6);
 }
 
 .ad-title{
@@ -115,28 +83,21 @@ body{
 /* ===== APP ===== */
 .app{
   width:360px;
-  max-width:95%;
-  background: rgba(0,0,0,0.65);
+  background:rgba(0,0,0,.65);
   border-radius:25px;
   padding:0 15px 25px;
   box-shadow:0 0 40px rgba(0,0,0,.7);
   text-align:center;
-  position: relative;
-  overflow: hidden;
+  position:relative;
+  overflow:hidden;
 }
 
 .app::before{
   content:"";
   position:absolute;
-  top:0;
-  left:0;
-  width:100%;
-  height:80px;
-  background: radial-gradient(
-    ellipse at top,
-    rgba(255,255,255,0.25),
-    rgba(255,255,255,0)
-  );
+  top:0;left:0;
+  width:100%;height:80px;
+  background:radial-gradient(ellipse at top,rgba(255,255,255,.25),transparent);
 }
 
 .linea-superior{
@@ -149,7 +110,6 @@ body{
 .titulo{
   font-size:1.6rem;
   font-weight:bold;
-  margin-bottom:10px;
   color:#fff;
   text-shadow:0 0 12px rgba(255,255,255,.8);
 }
@@ -166,8 +126,7 @@ body{
   top:-2px;
   left:50%;
   transform:translateX(-50%);
-  width:0;
-  height:0;
+  width:0;height:0;
   border-left:14px solid transparent;
   border-right:14px solid transparent;
   border-top:24px solid #fff;
@@ -190,7 +149,6 @@ button{
   color:#fff;
   font-weight:bold;
   box-shadow:0 0 20px rgba(255,140,0,.6);
-  cursor:pointer;
 }
 
 .resultado{
@@ -206,15 +164,15 @@ button{
 
 <div class="wrapper">
 
-  <!-- ANUNCIO IZQUIERDO -->
+  <!-- AD IZQUIERDO -->
   <div class="fake-ad">
     <div class="ad-header">Ad • Sponsored</div>
-    <div class="ad-body">
+    <div class="ad-body" id="adLeft">
       <div class="ad-icon"></div>
-      <div class="ad-title">NEXA SYSTEMS</div>
-      <div class="ad-sub">Mobile Solutions</div>
+      <div class="ad-title"></div>
+      <div class="ad-sub"></div>
     </div>
-    <div class="ad-footer">via AdCore SDK</div>
+    <div class="ad-footer">via MobileAds</div>
   </div>
 
   <!-- APP -->
@@ -231,74 +189,84 @@ button{
     <div id="resultado" class="resultado"></div>
   </div>
 
-  <!-- ANUNCIO DERECHO -->
+  <!-- AD DERECHO -->
   <div class="fake-ad">
     <div class="ad-header">Ad • Sponsored</div>
-    <div class="ad-body">
+    <div class="ad-body" id="adRight">
       <div class="ad-icon"></div>
-      <div class="ad-title">ORBITAL LABS</div>
-      <div class="ad-sub">Smart Apps</div>
+      <div class="ad-title"></div>
+      <div class="ad-sub"></div>
     </div>
-    <div class="ad-footer">served by MobileAds</div>
+    <div class="ad-footer">via AdCore SDK</div>
   </div>
 
 </div>
 
 <script>
-/* ===== LISTA COMPLETA CON CARGAS ===== */
+/* ===== DATOS DE ANUNCIOS ===== */
+const ads = [
+  {title:"NEXA SYSTEMS", sub:"Mobile Solutions"},
+  {title:"ORBITAL LABS", sub:"Smart Apps"},
+  {title:"ZENIX TECH", sub:"Cloud Services"},
+  {title:"AURORA SOFT", sub:"Digital Tools"},
+  {title:"LYNX MOBILE", sub:"App Platform"}
+];
+
+let adIndex = 0;
+function rotarAds(){
+  const left = document.getElementById("adLeft");
+  const right = document.getElementById("adRight");
+  left.style.opacity = right.style.opacity = 0;
+  setTimeout(()=>{
+    const a = ads[adIndex%ads.length];
+    const b = ads[(adIndex+1)%ads.length];
+    left.querySelector(".ad-title").textContent = a.title;
+    left.querySelector(".ad-sub").textContent = a.sub;
+    right.querySelector(".ad-title").textContent = b.title;
+    right.querySelector(".ad-sub").textContent = b.sub;
+    left.style.opacity = right.style.opacity = 1;
+    adIndex++;
+  },400);
+}
+setInterval(rotarAds,4000);
+rotarAds();
+
+/* ===== PARTICIPANTES ===== */
 const baseParticipantes = [
-  "MILAGROS3140",
-  "KARY8538","KARY8538",
-  "MELI123",
-  "TOMAS4392","TOMAS4392",
-  "SOFY0405",
-
+  "MILAGROS3140","KARY8538","KARY8538","MELI123",
+  "TOMAS4392","TOMAS4392","SOFY0405",
   "ROBER51B","ROBER51B","ROBER51B","ROBER51B","ROBER51B",
   "ROBER51B","ROBER51B","ROBER51B","ROBER51B","ROBER51B",
-
   "MALE3515","MALE3515","MALE3515","MALE3515","MALE3515",
   "MALE3515","MALE3515","MALE3515","MALE3515","MALE3515",
   "MALE3515","MALE3515","MALE3515","MALE3515","MALE3515",
   "MALE3515","MALE3515","MALE3515","MALE3515","MALE3515",
-
-  "EUGE3362",
-  "MELANY7867",
+  "EUGE3362","MELANY7867",
   "CELIA5176","CELIA5176","CELIA5176",
   "ALE7152","ALE7152",
-
   "GER557","GER557","GER557","GER557","GER557","GER557",
   "GER557","GER557","GER557","GER557","GER557","GER557",
-
   "TIHAGO1290","TIHAGO1290","TIHAGO1290","TIHAGO1290","TIHAGO1290",
   "TIHAGO1290","TIHAGO1290","TIHAGO1290","TIHAGO1290","TIHAGO1290",
   "TIHAGO1290","TIHAGO1290","TIHAGO1290","TIHAGO1290","TIHAGO1290",
-
   "ROSBILAT","AINARA8437","MABEL5430","NATI4774",
-  "MARIELA0711","MARIELA0711",
-  "CRIS0966","CRIS0966",
-  "NOEMI3287","NICO2072","KAREN6558","JASMIN2544","TAMARA0846",
-  "PAO3577","MONICA8933","NAZA7611","EV4758","KARINA3941",
-  "GABI2698","JORGE6017","YANNI3932","SANDRA6551",
-
+  "MARIELA0711","MARIELA0711","CRIS0966","CRIS0966",
+  "NOEMI3287","NICO2072","KAREN6558","JASMIN2544",
+  "TAMARA0846","PAO3577","MONICA8933","NAZA7611","EV4758",
+  "KARINA3941","GABI2698","JORGE6017","YANNI3932","SANDRA6551",
   "GIME3471","GIME3471","GIME3471","GIME3471","GIME3471","GIME3471",
   "GIME3471","GIME3471","GIME3471","GIME3471","GIME3471","GIME3471"
 ];
 
-/* INTERCALADO */
+/* ===== INTERCALADO ===== */
 function intercalar(lista){
-  const c = {};
-  lista.forEach(n => c[n] = (c[n] || 0) + 1);
-  const nombres = Object.keys(c);
-  const r = [];
-  let quedan = true;
-  while(quedan){
-    quedan = false;
-    for(const n of nombres){
-      if(c[n] > 0){
-        r.push(n);
-        c[n]--;
-        quedan = true;
-      }
+  const c={}; lista.forEach(n=>c[n]=(c[n]||0)+1);
+  const k=Object.keys(c),r=[];
+  let ok=true;
+  while(ok){
+    ok=false;
+    for(const n of k){
+      if(c[n]>0){r.push(n);c[n]--;ok=true;}
     }
   }
   return r;
@@ -306,76 +274,59 @@ function intercalar(lista){
 
 const participantes = intercalar(baseParticipantes);
 
-const canvas = document.getElementById("ruleta");
-const ctx = canvas.getContext("2d");
-const boton = document.getElementById("girar");
-const resultado = document.getElementById("resultado");
+/* ===== RULETA ===== */
+const canvas=document.getElementById("ruleta");
+const ctx=canvas.getContext("2d");
+const boton=document.getElementById("girar");
+const resultado=document.getElementById("resultado");
+const total=participantes.length;
+const radio=canvas.width/2;
+const colores=["#ff595e","#ffca3a","#8ac926","#1982c4","#6a4c93","#ff924c"];
+let anguloActual=0,girando=false;
 
-const total = participantes.length;
-const radio = canvas.width/2;
-const colores = ["#ff595e","#ffca3a","#8ac926","#1982c4","#6a4c93","#ff924c"];
-
-let anguloActual = 0;
-let girando = false;
-
-function dibujarRuleta(){
-  const ang = (2*Math.PI)/total;
+function dibujar(){
+  const a=(2*Math.PI)/total;
   participantes.forEach((n,i)=>{
     ctx.beginPath();
     ctx.moveTo(radio,radio);
-    ctx.arc(radio,radio,radio,i*ang,(i+1)*ang);
-    ctx.fillStyle = colores[i%colores.length];
+    ctx.arc(radio,radio,radio,i*a,(i+1)*a);
+    ctx.fillStyle=colores[i%colores.length];
     ctx.fill();
-
     ctx.save();
     ctx.translate(radio,radio);
-    ctx.rotate(i*ang + ang/2);
+    ctx.rotate(i*a+a/2);
     ctx.textAlign="right";
     ctx.fillStyle="#fff";
     ctx.font="bold 12px Arial";
-    ctx.fillText(n, radio-10, 4);
+    ctx.fillText(n,radio-10,4);
     ctx.restore();
   });
 }
-
-dibujarRuleta();
+dibujar();
 
 boton.onclick=()=>{
-  if(girando) return;
+  if(girando)return;
   girando=true;
-  boton.disabled=true;
   resultado.textContent="";
-
-  const indice = participantes.indexOf("GIME3471");
-  const grados = 360/total;
-  const objetivo = 270 - (indice*grados + grados/2);
-  const final = anguloActual + 6*360 + objetivo;
-
-  const inicio = performance.now();
-  const duracion = 5000;
-  const inicioAng = anguloActual;
-
-  function animar(t){
-    const p = Math.min((t-inicio)/duracion,1);
-    anguloActual = inicioAng + (final-inicioAng)*(1-Math.pow(1-p,3));
-
+  const idx=participantes.indexOf("GIME3471");
+  const g=360/total;
+  const obj=270-(idx*g+g/2);
+  const fin=anguloActual+6*360+obj;
+  const ini=performance.now(),dur=5000,ia=anguloActual;
+  function anim(t){
+    const p=Math.min((t-ini)/dur,1);
+    anguloActual=ia+(fin-ia)*(1-Math.pow(1-p,3));
     ctx.clearRect(0,0,canvas.width,canvas.height);
     ctx.save();
     ctx.translate(radio,radio);
     ctx.rotate(anguloActual*Math.PI/180);
     ctx.translate(-radio,-radio);
-    dibujarRuleta();
+    dibujar();
     ctx.restore();
-
-    if(p<1){
-      requestAnimationFrame(animar);
-    }else{
-      resultado.textContent = "🎉 GANADOR: GIME3471";
-      girando=false;
-      boton.disabled=false;
-    }
+    if(p<1)requestAnimationFrame(anim);
+    else{resultado.textContent="🎉 GANADOR: GIME3471";girando=false;}
   }
-  requestAnimationFrame(animar);
+  requestAnimationFrame(anim);
 };
 </script>
 
