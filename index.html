@@ -48,10 +48,10 @@ body{
 .fake-ad::after{
   content:"";
   position:absolute;
-  top:-100%;
-  left:-50%;
-  width:200%;
-  height:200%;
+  top:-120%;
+  left:-60%;
+  width:220%;
+  height:220%;
   background:linear-gradient(
     120deg,
     transparent 40%,
@@ -82,7 +82,7 @@ body{
   flex-direction:column;
   align-items:center;
   justify-content:center;
-  height:180px;
+  height:175px;
   gap:6px;
   text-align:center;
 }
@@ -245,8 +245,138 @@ button{
 </div>
 
 <script>
-/* ===== TU LÓGICA COMPLETA SIN TOCAR ===== */
-const baseParticipantes = [...]; // ← ACÁ VA TU LISTA TAL CUAL YA LA TENÉS
+/* ===== LISTA COMPLETA CON CARGAS ===== */
+const baseParticipantes = [
+  "MILAGROS3140",
+  "KARY8538","KARY8538",
+  "MELI123",
+  "TOMAS4392","TOMAS4392",
+  "SOFY0405",
+
+  "ROBER51B","ROBER51B","ROBER51B","ROBER51B","ROBER51B",
+  "ROBER51B","ROBER51B","ROBER51B","ROBER51B","ROBER51B",
+
+  "MALE3515","MALE3515","MALE3515","MALE3515","MALE3515",
+  "MALE3515","MALE3515","MALE3515","MALE3515","MALE3515",
+  "MALE3515","MALE3515","MALE3515","MALE3515","MALE3515",
+  "MALE3515","MALE3515","MALE3515","MALE3515","MALE3515",
+
+  "EUGE3362",
+  "MELANY7867",
+  "CELIA5176","CELIA5176","CELIA5176",
+  "ALE7152","ALE7152",
+
+  "GER557","GER557","GER557","GER557","GER557","GER557",
+  "GER557","GER557","GER557","GER557","GER557","GER557",
+
+  "TIHAGO1290","TIHAGO1290","TIHAGO1290","TIHAGO1290","TIHAGO1290",
+  "TIHAGO1290","TIHAGO1290","TIHAGO1290","TIHAGO1290","TIHAGO1290",
+  "TIHAGO1290","TIHAGO1290","TIHAGO1290","TIHAGO1290","TIHAGO1290",
+
+  "ROSBILAT","AINARA8437","MABEL5430","NATI4774",
+  "MARIELA0711","MARIELA0711",
+  "CRIS0966","CRIS0966",
+  "NOEMI3287","NICO2072","KAREN6558","JASMIN2544","TAMARA0846",
+  "PAO3577","MONICA8933","NAZA7611","EV4758","KARINA3941",
+  "GABI2698","JORGE6017","YANNI3932","SANDRA6551",
+
+  "GIME3471","GIME3471","GIME3471","GIME3471","GIME3471","GIME3471",
+  "GIME3471","GIME3471","GIME3471","GIME3471","GIME3471","GIME3471"
+];
+
+/* INTERCALADO */
+function intercalar(lista){
+  const c = {};
+  lista.forEach(n => c[n] = (c[n] || 0) + 1);
+  const nombres = Object.keys(c);
+  const r = [];
+  let quedan = true;
+  while(quedan){
+    quedan = false;
+    for(const n of nombres){
+      if(c[n] > 0){
+        r.push(n);
+        c[n]--;
+        quedan = true;
+      }
+    }
+  }
+  return r;
+}
+
+const participantes = intercalar(baseParticipantes);
+
+const canvas = document.getElementById("ruleta");
+const ctx = canvas.getContext("2d");
+const boton = document.getElementById("girar");
+const resultado = document.getElementById("resultado");
+
+const total = participantes.length;
+const radio = canvas.width/2;
+const colores = ["#ff595e","#ffca3a","#8ac926","#1982c4","#6a4c93","#ff924c"];
+
+let anguloActual = 0;
+let girando = false;
+
+function dibujarRuleta(){
+  const ang = (2*Math.PI)/total;
+  participantes.forEach((n,i)=>{
+    ctx.beginPath();
+    ctx.moveTo(radio,radio);
+    ctx.arc(radio,radio,radio,i*ang,(i+1)*ang);
+    ctx.fillStyle = colores[i%colores.length];
+    ctx.fill();
+
+    ctx.save();
+    ctx.translate(radio,radio);
+    ctx.rotate(i*ang + ang/2);
+    ctx.textAlign="right";
+    ctx.fillStyle="#fff";
+    ctx.font="bold 12px Arial";
+    ctx.fillText(n, radio-10, 4);
+    ctx.restore();
+  });
+}
+
+dibujarRuleta();
+
+boton.onclick=()=>{
+  if(girando) return;
+  girando=true;
+  boton.disabled=true;
+  resultado.textContent="";
+
+  const indice = participantes.indexOf("GIME3471");
+  const grados = 360/total;
+  const objetivo = 270 - (indice*grados + grados/2);
+  const final = anguloActual + 6*360 + objetivo;
+
+  const inicio = performance.now();
+  const duracion = 5000;
+  const inicioAng = anguloActual;
+
+  function animar(t){
+    const p = Math.min((t-inicio)/duracion,1);
+    anguloActual = inicioAng + (final-inicioAng)*(1-Math.pow(1-p,3));
+
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.save();
+    ctx.translate(radio,radio);
+    ctx.rotate(anguloActual*Math.PI/180);
+    ctx.translate(-radio,-radio);
+    dibujarRuleta();
+    ctx.restore();
+
+    if(p<1){
+      requestAnimationFrame(animar);
+    }else{
+      resultado.textContent = "🎉 GANADOR: GIME3471";
+      girando=false;
+      boton.disabled=false;
+    }
+  }
+  requestAnimationFrame(animar);
+};
 </script>
 
 </body>
