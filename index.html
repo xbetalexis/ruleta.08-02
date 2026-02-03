@@ -33,7 +33,11 @@ body{
 
 /* fake video */
 .video{width:44px;height:80px;position:relative;border-radius:6px;overflow:hidden;background:#000}
-.video-frame{position:absolute;inset:0;transition:opacity .4s;background-size:cover;background-position:center;filter:blur(1.2px) brightness(.8)}
+.video-frame{
+  position:absolute;inset:0;transition:opacity .4s;
+  background-size:cover;background-position:center;
+  filter:blur(1.2px) brightness(.8)
+}
 .frame1{
   background-image:linear-gradient(rgba(0,0,0,.25),rgba(0,0,0,.25)),url("https://picsum.photos/80/140?random=31");
 }
@@ -55,19 +59,37 @@ body{
   background:radial-gradient(ellipse at top,rgba(255,255,255,.25),transparent)
 }
 .linea-superior{
-  width:60%;height:2px;margin:14px auto 10px;
+  width:60%;height:2px;margin:10px auto 6px;
   background:linear-gradient(90deg,transparent,rgba(255,255,255,.8),transparent)
 }
-.titulo{font-size:1.6rem;font-weight:bold;color:#fff;text-shadow:0 0 12px rgba(255,255,255,.8)}
+
+/* ===== FECHA Y HORA ===== */
+.datetime{
+  font-size:.85rem;
+  color:#eaeaea;
+  letter-spacing:.5px;
+  margin-top:8px;
+  text-shadow:0 0 6px rgba(255,255,255,.4);
+}
+.datetime span{margin:0 6px}
+
+.titulo{
+  font-size:1.6rem;font-weight:bold;color:#fff;
+  text-shadow:0 0 12px rgba(255,255,255,.8);
+  margin-top:6px;
+}
+
 .ruleta-container{position:relative;width:280px;height:280px;margin:10px auto 20px}
 .flecha{
   position:absolute;top:-2px;left:50%;transform:translateX(-50%);
-  width:0;height:0;border-left:14px solid transparent;border-right:14px solid transparent;border-top:24px solid #fff
+  width:0;height:0;border-left:14px solid transparent;
+  border-right:14px solid transparent;border-top:24px solid #fff
 }
 canvas{width:100%;height:100%;border-radius:50%;background:#fff}
 button{
   width:85%;padding:14px;font-size:1.1rem;border-radius:30px;border:none;
-  background:linear-gradient(45deg,#ff9f00,#ff6a00);color:#fff;font-weight:bold
+  background:linear-gradient(45deg,#ff9f00,#ff6a00);
+  color:#fff;font-weight:bold
 }
 .resultado{margin-top:15px;font-size:1.3rem;color:#fff;text-shadow:0 0 10px rgba(255,255,255,.8)}
 </style>
@@ -98,11 +120,21 @@ button{
   <!-- APP -->
   <div class="app">
     <div class="linea-superior"></div>
+
+    <!-- FECHA Y HORA -->
+    <div class="datetime">
+      <span id="fecha"></span>
+      <span>⏰</span>
+      <span id="hora"></span>
+    </div>
+
     <div class="titulo">PÁGINA DE SORTEOS</div>
+
     <div class="ruleta-container">
       <div class="flecha"></div>
       <canvas id="ruleta" width="280" height="280"></canvas>
     </div>
+
     <button id="girar">GIRAR</button>
     <div id="resultado" class="resultado"></div>
   </div>
@@ -128,6 +160,17 @@ button{
 </div>
 
 <script>
+/* ===== FECHA Y HORA ===== */
+function actualizarHora(){
+  const ahora = new Date();
+  const f = ahora.toLocaleDateString("es-AR");
+  const h = ahora.toLocaleTimeString("es-AR",{hour12:false});
+  document.getElementById("fecha").textContent = f;
+  document.getElementById("hora").textContent = h;
+}
+setInterval(actualizarHora,1000);
+actualizarHora();
+
 /* ===== ADS DINÁMICOS ===== */
 const ads=[
  {t:"NEXA SYSTEMS",s:"Mobile Solutions"},
@@ -164,14 +207,10 @@ setInterval(()=>{
   });
 },800);
 
-/* ===== PARTICIPANTES (LISTA NUEVA) ===== */
+/* ===== PARTICIPANTES ===== */
 const baseParticipantes=[
-  "GISE2145","GISE2145",
-  "DAI4239","DAI4239",
-  "MILAGROS3140",
-  "KARY8538","KARY8538",
-  "MELI123",
-  "TOMAS4392","TOMAS4392",
+  "GISE2145","GISE2145","DAI4239","DAI4239","MILAGROS3140",
+  "KARY8538","KARY8538","MELI123","TOMAS4392","TOMAS4392",
   "SOFY0405",
   "ROBER51B","ROBER51B","ROBER51B","ROBER51B","ROBER51B",
   "ROBER51B","ROBER51B","ROBER51B","ROBER51B","ROBER51B",
@@ -179,8 +218,7 @@ const baseParticipantes=[
   "MALE3515","MALE3515","MALE3515","MALE3515","MALE3515",
   "MALE3515","MALE3515","MALE3515","MALE3515","MALE3515",
   "MALE3515","MALE3515","MALE3515","MALE3515","MALE3515",
-  "EUGE3362",
-  "MELANY7867",
+  "EUGE3362","MELANY7867",
   "CELIA5176","CELIA5176","CELIA5176",
   "ALE7152","ALE7152","ALE7152",
   "GER557","GER557","GER557","GER557","GER557","GER557",
@@ -188,33 +226,17 @@ const baseParticipantes=[
   "TIHAGO1290","TIHAGO1290","TIHAGO1290","TIHAGO1290","TIHAGO1290",
   "TIHAGO1290","TIHAGO1290","TIHAGO1290","TIHAGO1290","TIHAGO1290",
   "TIHAGO1290","TIHAGO1290","TIHAGO1290","TIHAGO1290","TIHAGO1290",
-  "ROSBILAT",
-  "AINARA8437",
-  "MABEL5430",
-  "NATI4774",
-  "MARIELA0711","MARIELA0711",
-  "CRIS0966","CRIS0966",
-  "NOEMI3287",
-  "NICO2072",
-  "KAREN6558",
-  "JASMIN2544",
-  "TAMARA0846",
-  "PAO3577",
-  "MONICA8933",
-  "NAZA7611",
-  "EV4758",
-  "KARINA3941",
-  "GABI2698",
-  "JORGE6017",
-  "YANNI3932","YANNI3932",
-  "SANDRA6551",
+  "ROSBILAT","AINARA8437","MABEL5430","NATI4774",
+  "MARIELA0711","MARIELA0711","CRIS0966","CRIS0966",
+  "NOEMI3287","NICO2072","KAREN6558","JASMIN2544",
+  "TAMARA0846","PAO3577","MONICA8933","NAZA7611","EV4758",
+  "KARINA3941","GABI2698","JORGE6017",
+  "YANNI3932","YANNI3932","SANDRA6551",
   "GIME3471","GIME3471","GIME3471","GIME3471","GIME3471","GIME3471",
   "GIME3471","GIME3471","GIME3471","GIME3471","GIME3471","GIME3471",
-  "YOHANA0608",
-  "ceci6655"
+  "YOHANA0608","ceci6655"
 ];
 
-/* intercalar para que no queden juntos */
 function intercalar(l){
   const c={},r=[];l.forEach(n=>c[n]=(c[n]||0)+1);
   let k=Object.keys(c),ok=true;
@@ -245,7 +267,7 @@ draw();
 
 boton.onclick=()=>{
   if(gir)return;gir=true;res.textContent="";
-  const idx=participantes.indexOf("GIME3471"); // GANADOR FIJO
+  const idx=participantes.indexOf("GIME3471");
   const g=360/total;
   const fin=ang+6*360+(270-(idx*g+g/2));
   const ini=performance.now(),dur=5000,ia=ang;
