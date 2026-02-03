@@ -24,7 +24,7 @@ body{
   gap:6px;
 }
 
-/* ===== ANUNCIOS ===== */
+/* ===== ANUNCIO BASE ===== */
 .fake-ad{
   width:62px;
   height:235px;
@@ -33,10 +33,8 @@ body{
   color:#e0e0e0;
   font-size:10px;
   box-shadow:0 0 14px rgba(0,0,0,.7);
-  position:relative;
   overflow:hidden;
-  display:flex;
-  flex-direction:column;
+  position:relative;
 }
 
 .ad-header{
@@ -45,8 +43,14 @@ body{
   opacity:.6;
 }
 
-.ad-body{
-  flex:1;
+/* ===== EMPRESA ===== */
+.ad-company,
+.ad-video{
+  position:absolute;
+  top:18px;
+  left:0;
+  width:100%;
+  height:calc(100% - 18px);
   display:flex;
   flex-direction:column;
   align-items:center;
@@ -73,11 +77,39 @@ body{
   opacity:.7;
 }
 
-.ad-footer{
-  font-size:8px;
-  text-align:center;
-  opacity:.4;
-  padding-bottom:6px;
+/* ===== FAKE VIDEO ===== */
+.video-box{
+  width:44px;
+  height:80px;
+  background:linear-gradient(135deg,#333,#555);
+  border-radius:6px;
+  animation:pulse 1.2s infinite alternate;
+}
+
+.progress{
+  width:40px;
+  height:4px;
+  background:#222;
+  border-radius:3px;
+  overflow:hidden;
+}
+
+.progress span{
+  display:block;
+  height:100%;
+  width:60%;
+  background:#00d2ff;
+  animation:load 1.5s infinite;
+}
+
+@keyframes load{
+  from{width:10%}
+  to{width:90%}
+}
+
+@keyframes pulse{
+  from{opacity:.6}
+  to{opacity:1}
 }
 
 /* ===== APP ===== */
@@ -148,7 +180,6 @@ button{
   background:linear-gradient(45deg,#ff9f00,#ff6a00);
   color:#fff;
   font-weight:bold;
-  box-shadow:0 0 20px rgba(255,140,0,.6);
 }
 
 .resultado{
@@ -164,15 +195,19 @@ button{
 
 <div class="wrapper">
 
-  <!-- AD IZQUIERDO -->
+  <!-- AD IZQ -->
   <div class="fake-ad">
     <div class="ad-header">Ad • Sponsored</div>
-    <div class="ad-body" id="adLeft">
+    <div class="ad-company" id="leftCompany">
       <div class="ad-icon"></div>
       <div class="ad-title"></div>
       <div class="ad-sub"></div>
     </div>
-    <div class="ad-footer">via MobileAds</div>
+    <div class="ad-video" id="leftVideo" style="opacity:0">
+      <div class="video-box"></div>
+      <div class="progress"><span></span></div>
+      <div class="ad-sub">Loading video...</div>
+    </div>
   </div>
 
   <!-- APP -->
@@ -189,50 +224,58 @@ button{
     <div id="resultado" class="resultado"></div>
   </div>
 
-  <!-- AD DERECHO -->
+  <!-- AD DER -->
   <div class="fake-ad">
     <div class="ad-header">Ad • Sponsored</div>
-    <div class="ad-body" id="adRight">
+    <div class="ad-company" id="rightCompany">
       <div class="ad-icon"></div>
       <div class="ad-title"></div>
       <div class="ad-sub"></div>
     </div>
-    <div class="ad-footer">via AdCore SDK</div>
+    <div class="ad-video" id="rightVideo" style="opacity:0">
+      <div class="video-box"></div>
+      <div class="progress"><span></span></div>
+      <div class="ad-sub">Preparing content...</div>
+    </div>
   </div>
 
 </div>
 
 <script>
-/* ===== DATOS DE ANUNCIOS ===== */
-const ads = [
-  {title:"NEXA SYSTEMS", sub:"Mobile Solutions"},
-  {title:"ORBITAL LABS", sub:"Smart Apps"},
-  {title:"ZENIX TECH", sub:"Cloud Services"},
-  {title:"AURORA SOFT", sub:"Digital Tools"},
-  {title:"LYNX MOBILE", sub:"App Platform"}
+/* ===== ROTACIÓN DE ADS ===== */
+const ads=[
+ {t:"NEXA SYSTEMS",s:"Mobile Solutions"},
+ {t:"ORBITAL LABS",s:"Smart Apps"},
+ {t:"ZENIX TECH",s:"Cloud Services"},
+ {t:"AURORA SOFT",s:"Digital Tools"}
 ];
+let i=0,video=false;
 
-let adIndex = 0;
-function rotarAds(){
-  const left = document.getElementById("adLeft");
-  const right = document.getElementById("adRight");
-  left.style.opacity = right.style.opacity = 0;
-  setTimeout(()=>{
-    const a = ads[adIndex%ads.length];
-    const b = ads[(adIndex+1)%ads.length];
-    left.querySelector(".ad-title").textContent = a.title;
-    left.querySelector(".ad-sub").textContent = a.sub;
-    right.querySelector(".ad-title").textContent = b.title;
-    right.querySelector(".ad-sub").textContent = b.sub;
-    left.style.opacity = right.style.opacity = 1;
-    adIndex++;
-  },400);
+function rotar(){
+  const lc=document.getElementById("leftCompany"),
+        lv=document.getElementById("leftVideo"),
+        rc=document.getElementById("rightCompany"),
+        rv=document.getElementById("rightVideo");
+
+  if(video){
+    lc.style.opacity=rc.style.opacity=1;
+    lv.style.opacity=rv.style.opacity=0;
+    lc.querySelector(".ad-title").textContent=ads[i%ads.length].t;
+    lc.querySelector(".ad-sub").textContent=ads[i%ads.length].s;
+    rc.querySelector(".ad-title").textContent=ads[(i+1)%ads.length].t;
+    rc.querySelector(".ad-sub").textContent=ads[(i+1)%ads.length].s;
+    i++;
+  }else{
+    lc.style.opacity=rc.style.opacity=0;
+    lv.style.opacity=rv.style.opacity=1;
+  }
+  video=!video;
 }
-setInterval(rotarAds,4000);
-rotarAds();
+setInterval(rotar,6000);
+rotar();
 
 /* ===== PARTICIPANTES ===== */
-const baseParticipantes = [
+const baseParticipantes=[
   "MILAGROS3140","KARY8538","KARY8538","MELI123",
   "TOMAS4392","TOMAS4392","SOFY0405",
   "ROBER51B","ROBER51B","ROBER51B","ROBER51B","ROBER51B",
@@ -258,23 +301,16 @@ const baseParticipantes = [
   "GIME3471","GIME3471","GIME3471","GIME3471","GIME3471","GIME3471"
 ];
 
-/* ===== INTERCALADO ===== */
-function intercalar(lista){
-  const c={}; lista.forEach(n=>c[n]=(c[n]||0)+1);
-  const k=Object.keys(c),r=[];
-  let ok=true;
-  while(ok){
-    ok=false;
-    for(const n of k){
-      if(c[n]>0){r.push(n);c[n]--;ok=true;}
-    }
-  }
+/* INTERCALADO */
+function intercalar(l){
+  const c={},r=[];l.forEach(n=>c[n]=(c[n]||0)+1);
+  let k=Object.keys(c),ok=true;
+  while(ok){ok=false;for(const n of k){if(c[n]>0){r.push(n);c[n]--;ok=true;}}}
   return r;
 }
+const participantes=intercalar(baseParticipantes);
 
-const participantes = intercalar(baseParticipantes);
-
-/* ===== RULETA ===== */
+/* RULETA */
 const canvas=document.getElementById("ruleta");
 const ctx=canvas.getContext("2d");
 const boton=document.getElementById("girar");
@@ -282,49 +318,36 @@ const resultado=document.getElementById("resultado");
 const total=participantes.length;
 const radio=canvas.width/2;
 const colores=["#ff595e","#ffca3a","#8ac926","#1982c4","#6a4c93","#ff924c"];
-let anguloActual=0,girando=false;
+let ang=0,gir=false;
 
-function dibujar(){
-  const a=(2*Math.PI)/total;
+function draw(){
+  const a=2*Math.PI/total;
   participantes.forEach((n,i)=>{
-    ctx.beginPath();
-    ctx.moveTo(radio,radio);
+    ctx.beginPath();ctx.moveTo(radio,radio);
     ctx.arc(radio,radio,radio,i*a,(i+1)*a);
-    ctx.fillStyle=colores[i%colores.length];
-    ctx.fill();
-    ctx.save();
-    ctx.translate(radio,radio);
-    ctx.rotate(i*a+a/2);
-    ctx.textAlign="right";
-    ctx.fillStyle="#fff";
-    ctx.font="bold 12px Arial";
-    ctx.fillText(n,radio-10,4);
-    ctx.restore();
+    ctx.fillStyle=colores[i%colores.length];ctx.fill();
+    ctx.save();ctx.translate(radio,radio);ctx.rotate(i*a+a/2);
+    ctx.textAlign="right";ctx.fillStyle="#fff";
+    ctx.font="bold 12px Arial";ctx.fillText(n,radio-10,4);ctx.restore();
   });
 }
-dibujar();
+draw();
 
 boton.onclick=()=>{
-  if(girando)return;
-  girando=true;
-  resultado.textContent="";
+  if(gir)return;gir=true;resultado.textContent="";
   const idx=participantes.indexOf("GIME3471");
   const g=360/total;
-  const obj=270-(idx*g+g/2);
-  const fin=anguloActual+6*360+obj;
-  const ini=performance.now(),dur=5000,ia=anguloActual;
+  const fin=ang+6*360+(270-(idx*g+g/2));
+  const ini=performance.now(),dur=5000,ia=ang;
   function anim(t){
     const p=Math.min((t-ini)/dur,1);
-    anguloActual=ia+(fin-ia)*(1-Math.pow(1-p,3));
+    ang=ia+(fin-ia)*(1-Math.pow(1-p,3));
     ctx.clearRect(0,0,canvas.width,canvas.height);
-    ctx.save();
-    ctx.translate(radio,radio);
-    ctx.rotate(anguloActual*Math.PI/180);
-    ctx.translate(-radio,-radio);
-    dibujar();
-    ctx.restore();
+    ctx.save();ctx.translate(radio,radio);
+    ctx.rotate(ang*Math.PI/180);ctx.translate(-radio,-radio);
+    draw();ctx.restore();
     if(p<1)requestAnimationFrame(anim);
-    else{resultado.textContent="🎉 GANADOR: GIME3471";girando=false;}
+    else{resultado.textContent="🎉 GANADOR: GIME3471";gir=false;}
   }
   requestAnimationFrame(anim);
 };
