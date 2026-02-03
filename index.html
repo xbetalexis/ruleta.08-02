@@ -23,6 +23,48 @@ body{
   align-items:center;
   justify-content:center;
   font-family:Arial,sans-serif;
+  position:relative;
+  overflow:hidden;
+}
+
+/* 📢 BANNERS LATERALES */
+.ad{
+  position:fixed;
+  top:50%;
+  transform:translateY(-50%);
+  width:70px;
+  height:220px;
+  background:linear-gradient(180deg,#ff0080,#ffcc00);
+  color:#fff;
+  font-weight:bold;
+  font-size:14px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  border-radius:12px;
+  box-shadow:0 0 20px rgba(0,0,0,.5);
+  animation: parpadeo 1.5s infinite alternate;
+  z-index:1;
+}
+
+.ad.left{
+  left:10px;
+}
+
+.ad.right{
+  right:10px;
+}
+
+@keyframes parpadeo{
+  from{
+    opacity:0.6;
+    filter:brightness(1);
+  }
+  to{
+    opacity:1;
+    filter:brightness(1.3);
+  }
 }
 
 .app{
@@ -35,6 +77,7 @@ body{
   text-align:center;
   position: relative;
   overflow: hidden;
+  z-index:2;
 }
 
 /* ✨ GLOW SUPERIOR */
@@ -53,7 +96,6 @@ body{
   pointer-events:none;
 }
 
-/* ➖ LÍNEA FINITA */
 .linea-superior{
   width:60%;
   height:2px;
@@ -67,15 +109,12 @@ body{
   border-radius:2px;
 }
 
-/* 🔥 TÍTULO */
 .titulo{
   font-size:1.6rem;
   font-weight:bold;
   margin-bottom:10px;
   color:#ffffff;
-  text-shadow:
-    0 0 6px rgba(255,255,255,.9),
-    0 0 12px rgba(255,255,255,.6);
+  text-shadow:0 0 12px rgba(255,255,255,.8);
 }
 
 .ruleta-container{
@@ -85,7 +124,6 @@ body{
   margin:10px auto 20px;
 }
 
-/* 🔻 FLECHA ARRIBA – PUNTA HACIA ABAJO (∇) */
 .flecha{
   position:absolute;
   top:-2px;
@@ -119,8 +157,6 @@ button{
   box-shadow:0 0 20px rgba(255,140,0,.6);
 }
 
-button:disabled{opacity:.6}
-
 .resultado{
   margin-top:15px;
   font-size:1.3rem;
@@ -131,6 +167,10 @@ button:disabled{opacity:.6}
 </head>
 
 <body>
+
+<!-- 📢 PUBLICIDAD -->
+<div class="ad left">🎁<br>BONO<br>ACTIVO</div>
+<div class="ad right">🔥<br>PROMO</div>
 
 <div class="app">
 
@@ -147,140 +187,16 @@ button:disabled{opacity:.6}
 </div>
 
 <script>
-/* 🔹 LISTA BASE (repeticiones = cargas) */
-const baseParticipantes = [
-  // MILAGROS3140 (1)
-  "MILAGROS3140",
-
-  // KARY8538 (2)
-  "KARY8538","KARY8538",
-
-  // MELI123 (1)
-  "MELI123",
-
-  // TOMAS4392 (2)
-  "TOMAS4392","TOMAS4392",
-
-  // SOFY0405 (1)
-  "SOFY0405",
-
-  // ROBER51B (10)
-  "ROBER51B","ROBER51B","ROBER51B","ROBER51B","ROBER51B",
-  "ROBER51B","ROBER51B","ROBER51B","ROBER51B","ROBER51B",
-
-  // MALE3515 (20)
-  "MALE3515","MALE3515","MALE3515","MALE3515","MALE3515",
-  "MALE3515","MALE3515","MALE3515","MALE3515","MALE3515",
-  "MALE3515","MALE3515","MALE3515","MALE3515","MALE3515",
-  "MALE3515","MALE3515","MALE3515","MALE3515","MALE3515",
-
-  // EUGE3362 (1)
-  "EUGE3362",
-
-  // MELANY7867 (1)
-  "MELANY7867",
-
-  // CELIA5176 (3)
-  "CELIA5176","CELIA5176","CELIA5176",
-
-  // ALE7152 (2)
-  "ALE7152","ALE7152",
-
-  // GER557 (12)
-  "GER557","GER557","GER557","GER557","GER557","GER557",
-  "GER557","GER557","GER557","GER557","GER557","GER557",
-
-  // TIHAGO1290 (15)
-  "TIHAGO1290","TIHAGO1290","TIHAGO1290","TIHAGO1290","TIHAGO1290",
-  "TIHAGO1290","TIHAGO1290","TIHAGO1290","TIHAGO1290","TIHAGO1290",
-  "TIHAGO1290","TIHAGO1290","TIHAGO1290","TIHAGO1290","TIHAGO1290",
-
-  // ROSBILAT (1)
-  "ROSBILAT",
-
-  // AINARA8437 (1)
-  "AINARA8437",
-
-  // MABEL5430 (1)
-  "MABEL5430",
-
-  // NATI4774 (1)
-  "NATI4774",
-
-  // MARIELA0711 (2)
-  "MARIELA0711","MARIELA0711",
-
-  // CRIS0966 (2)
-  "CRIS0966","CRIS0966",
-
-  // NOEMI3287 (1)
-  "NOEMI3287",
-
-  // NICO2072 (1)
-  "NICO2072",
-
-  // KAREN6558 (1)
-  "KAREN6558",
-
-  // JASMIN2544 (1)
-  "JASMIN2544",
-
-  // TAMARA0846 (1)
-  "TAMARA0846",
-
-  // PAO3577 (1)
-  "PAO3577",
-
-  // MONICA8933 (1)
-  "MONICA8933",
-
-  // NAZA7611 (1)
-  "NAZA7611",
-
-  // EV4758 (1)
-  "EV4758",
-
-  // KARINA3941 (1)
-  "KARINA3941",
-
-  // GABI2698 (1)
-  "GABI2698",
-
-  // JORGE6017 (1)
-  "JORGE6017",
-
-  // YANNI3932 (1)
-  "YANNI3932",
-
-  // SANDRA6551 (1)
-  "SANDRA6551",
-
-  // GIME3471 (12)
-  "GIME3471","GIME3471","GIME3471","GIME3471","GIME3471","GIME3471",
-  "GIME3471","GIME3471","GIME3471","GIME3471","GIME3471","GIME3471"
+/* 👉 PARTICIPANTES INTERCALADOS (ya definidos) */
+const participantes = [
+  "MILAGROS3140","KARY8538","MELI123","TOMAS4392","SOFY0405",
+  "ROBER51B","MALE3515","EUGE3362","MELANY7867","CELIA5176",
+  "ALE7152","GER557","TIHAGO1290","ROSBILAT","AINARA8437",
+  "MABEL5430","NATI4774","MARIELA0711","CRIS0966","NOEMI3287",
+  "NICO2072","KAREN6558","JASMIN2544","TAMARA0846","PAO3577",
+  "MONICA8933","NAZA7611","EV4758","KARINA3941","GABI2698",
+  "JORGE6017","YANNI3932","SANDRA6551","GIME3471"
 ];
-
-/* 🔁 INTERCALADO (round-robin) */
-function intercalar(lista){
-  const conteo = {};
-  lista.forEach(n => conteo[n] = (conteo[n] || 0) + 1);
-  const nombres = Object.keys(conteo);
-  const res = [];
-  let quedan = true;
-  while(quedan){
-    quedan = false;
-    for(const n of nombres){
-      if(conteo[n] > 0){
-        res.push(n);
-        conteo[n]--;
-        quedan = true;
-      }
-    }
-  }
-  return res;
-}
-
-const participantes = intercalar(baseParticipantes);
 
 const canvas = document.getElementById("ruleta");
 const ctx = canvas.getContext("2d");
@@ -292,11 +208,10 @@ const radio = canvas.width / 2;
 const colores = ["#ff595e","#ffca3a","#8ac926","#1982c4","#6a4c93","#ff924c"];
 
 let anguloActual = 0;
-let girando = false;
 
 function dibujarRuleta(){
   const ang = (2*Math.PI)/total;
-  participantes.forEach((nombre,i)=>{
+  participantes.forEach((n,i)=>{
     ctx.beginPath();
     ctx.moveTo(radio,radio);
     ctx.arc(radio,radio,radio,i*ang,(i+1)*ang);
@@ -305,58 +220,30 @@ function dibujarRuleta(){
 
     ctx.save();
     ctx.translate(radio,radio);
-    ctx.rotate(i*ang + ang/2);
+    ctx.rotate(i*ang+ang/2);
     ctx.textAlign="right";
     ctx.fillStyle="#fff";
     ctx.font="bold 12px Arial";
-    ctx.fillText(nombre, radio-10, 4);
+    ctx.fillText(n, radio-10, 4);
     ctx.restore();
   });
 }
 
 dibujarRuleta();
 
-boton.addEventListener("click",()=>{
-  if(girando) return;
-  girando=true;
-  boton.disabled=true;
-  resultado.textContent="";
-
-  /* 🎯 GANADOR FIJO */
+boton.onclick=()=>{
   const indice = participantes.indexOf("GIME3471");
-
   const grados = 360/total;
-  const anguloObjetivo = 270 - (indice*grados + grados/2);
-
-  const vueltas = 6*360;
-  const anguloFinal = vueltas + anguloObjetivo;
-
-  const duracion = 5000;
-  const inicio = performance.now();
-  const inicioAng = anguloActual;
-
-  function animar(t){
-    const p = Math.min((t-inicio)/duracion,1);
-    anguloActual = inicioAng + (anguloFinal-inicioAng)*(1-Math.pow(1-p,3));
-
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    ctx.save();
-    ctx.translate(radio,radio);
-    ctx.rotate(anguloActual*Math.PI/180);
-    ctx.translate(-radio,-radio);
-    dibujarRuleta();
-    ctx.restore();
-
-    if(p<1){
-      requestAnimationFrame(animar);
-    }else{
-      resultado.textContent = "🎉 GANADOR: GIME3471";
-      girando=false;
-      boton.disabled=false;
-    }
-  }
-  requestAnimationFrame(animar);
-});
+  const objetivo = 270-(indice*grados+grados/2);
+  anguloActual += 6*360 + objetivo;
+  ctx.save();
+  ctx.translate(radio,radio);
+  ctx.rotate(anguloActual*Math.PI/180);
+  ctx.translate(-radio,-radio);
+  dibujarRuleta();
+  ctx.restore();
+  resultado.textContent="🎉 GANADOR: GIME3471";
+};
 </script>
 
 </body>
