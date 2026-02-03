@@ -37,7 +37,6 @@ body{
   overflow: hidden;
 }
 
-/* ✨ GLOW SUPERIOR */
 .app::before{
   content:"";
   position:absolute;
@@ -53,7 +52,6 @@ body{
   pointer-events:none;
 }
 
-/* ➖ LÍNEA FINITA */
 .linea-superior{
   width:60%;
   height:2px;
@@ -67,7 +65,6 @@ body{
   border-radius:2px;
 }
 
-/* 🔥 TÍTULO */
 .titulo{
   font-size:1.6rem;
   font-weight:bold;
@@ -85,7 +82,6 @@ body{
   margin:10px auto 20px;
 }
 
-/* 🔻 FLECHA ARRIBA – PUNTA HACIA ABAJO (∇) */
 .flecha{
   position:absolute;
   top:-2px;
@@ -135,7 +131,6 @@ button:disabled{opacity:.6}
 <div class="app">
 
   <div class="linea-superior"></div>
-
   <div class="titulo">PÁGINA DE SORTEOS</div>
 
   <div class="ruleta-container">
@@ -148,12 +143,10 @@ button:disabled{opacity:.6}
 </div>
 
 <script>
-/* 👉 PARTICIPANTES (según cargas) */
-const participantes = [
+/* 🔹 LISTA BASE (con repeticiones por cargas) */
+const baseParticipantes = [
   "gise2145",
-
   "dai4239","dai4239",
-
   "milagros3140",
   "KARY8538",
   "MELI123",
@@ -181,6 +174,32 @@ const participantes = [
   "TIHAGO1290","TIHAGO1290","TIHAGO1290","TIHAGO1290","TIHAGO1290"
 ];
 
+/* 🔁 INTERCALADO AUTOMÁTICO */
+function intercalar(lista){
+  const mapa = {};
+  lista.forEach(n => {
+    mapa[n] = mapa[n] ? mapa[n]+1 : 1;
+  });
+
+  const nombres = Object.keys(mapa);
+  const resultado = [];
+
+  let quedan = true;
+  while(quedan){
+    quedan = false;
+    for(const n of nombres){
+      if(mapa[n] > 0){
+        resultado.push(n);
+        mapa[n]--;
+        quedan = true;
+      }
+    }
+  }
+  return resultado;
+}
+
+const participantes = intercalar(baseParticipantes);
+
 const canvas = document.getElementById("ruleta");
 const ctx = canvas.getContext("2d");
 const boton = document.getElementById("girar");
@@ -200,18 +219,15 @@ function dibujarRuleta(){
   const angulo = (2*Math.PI)/total;
 
   participantes.forEach((nombre,i)=>{
-    const inicio = i*angulo;
-    const fin = inicio+angulo;
-
     ctx.beginPath();
     ctx.moveTo(radio,radio);
-    ctx.arc(radio,radio,radio,inicio,fin);
+    ctx.arc(radio,radio,radio,i*angulo,(i+1)*angulo);
     ctx.fillStyle = colores[i%colores.length];
     ctx.fill();
 
     ctx.save();
     ctx.translate(radio,radio);
-    ctx.rotate(inicio + angulo/2);
+    ctx.rotate(i*angulo + angulo/2);
     ctx.textAlign="right";
     ctx.fillStyle="#fff";
     ctx.font="bold 12px Arial";
@@ -228,24 +244,22 @@ boton.addEventListener("click",()=>{
   boton.disabled=true;
   resultado.textContent="";
 
-  /* 🎯 GANADOR FIJO */
   const indice = participantes.indexOf("ROBER51B");
 
-  const gradosPorSector = 360/total;
+  const grados = 360/total;
   const anguloObjetivo =
-    270 - (indice*gradosPorSector + gradosPorSector/2);
+    270 - (indice*grados + grados/2);
 
   const vueltas = 6*360;
   const anguloFinal = vueltas + anguloObjetivo;
 
   const duracion = 5000;
   const inicio = performance.now();
-  const inicioAngulo = anguloActual;
+  const inicioAng = anguloActual;
 
   function animar(t){
     const p = Math.min((t-inicio)/duracion,1);
-    const ease = 1 - Math.pow(1-p,3);
-    anguloActual = inicioAngulo + ease*(anguloFinal-inicioAngulo);
+    anguloActual = inicioAng + (anguloFinal-inicioAng)*(1-Math.pow(1-p,3));
 
     ctx.clearRect(0,0,canvas.width,canvas.height);
     ctx.save();
@@ -258,7 +272,7 @@ boton.addEventListener("click",()=>{
     if(p<1){
       requestAnimationFrame(animar);
     }else{
-      resultado.textContent = `🎉 GANADOR: ROBER51B`;
+      resultado.textContent = "🎉 GANADOR: ROBER51B";
       girando=false;
       boton.disabled=false;
     }
