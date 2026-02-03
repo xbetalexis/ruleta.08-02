@@ -25,18 +25,19 @@ body{
   font-family:Arial,sans-serif;
 }
 
+/* CONTENEDOR GENERAL PARA PEGAR ANUNCIOS A LA APP */
 .wrapper{
-  position:relative;
   display:flex;
   align-items:center;
-  gap:8px;
+  gap:6px;
 }
 
+/* ANUNCIOS FAKE */
 .fake-ad{
-  width:58px;
-  height:220px;
-  background:linear-gradient(180deg,#2b2b2b,#1a1a1a);
-  color:#dcdcdc;
+  width:55px;
+  height:230px;
+  background:linear-gradient(180deg,#1f1f1f,#0e0e0e);
+  color:#cfcfcf;
   font-size:11px;
   font-weight:bold;
   display:flex;
@@ -45,16 +46,12 @@ body{
   text-align:center;
   border-radius:10px;
   box-shadow:0 0 12px rgba(0,0,0,.6);
-  animation: blink 2.5s infinite alternate;
+  animation: blink 2.8s infinite alternate;
   user-select:none;
 }
 
-.fake-ad span{
-  opacity:.8;
-}
-
 @keyframes blink{
-  from{opacity:.6}
+  from{opacity:.65}
   to{opacity:1}
 }
 
@@ -70,7 +67,7 @@ body{
   overflow: hidden;
 }
 
-/* ✨ GLOW SUPERIOR */
+/* GLOW SUPERIOR */
 .app::before{
   content:"";
   position:absolute;
@@ -86,7 +83,7 @@ body{
   pointer-events:none;
 }
 
-/* ➖ LÍNEA FINITA */
+/* LINEA */
 .linea-superior{
   width:60%;
   height:2px;
@@ -100,7 +97,6 @@ body{
   border-radius:2px;
 }
 
-/* 🔥 TÍTULO */
 .titulo{
   font-size:1.6rem;
   font-weight:bold;
@@ -118,7 +114,7 @@ body{
   margin:10px auto 20px;
 }
 
-/* 🔻 FLECHA */
+/* FLECHA */
 .flecha{
   position:absolute;
   top:-2px;
@@ -168,7 +164,7 @@ button:disabled{opacity:.6}
 <div class="wrapper">
 
   <!-- ANUNCIO IZQUIERDO -->
-  <div class="fake-ad"><span>ADS<br>by<br>NOVA<br>LABS</span></div>
+  <div class="fake-ad">ADS<br>by<br>NOVA<br>LABS</div>
 
   <!-- APP -->
   <div class="app">
@@ -186,32 +182,82 @@ button:disabled{opacity:.6}
   </div>
 
   <!-- ANUNCIO DERECHO -->
-  <div class="fake-ad"><span>POWERED<br>BY<br>ZYNEX<br>MOBILE</span></div>
+  <div class="fake-ad">POWERED<br>BY<br>ZYNEX<br>MOBILE</div>
 
 </div>
 
 <script>
-/* 🔹 LISTA BASE (NO TOCADA) */
-const baseParticipantes = [ /* === TU LISTA TAL CUAL === */ ];
+/* LISTA BASE CON CARGAS */
+const baseParticipantes = [
+  "MILAGROS3140",
+  "KARY8538","KARY8538",
+  "MELI123",
+  "TOMAS4392","TOMAS4392",
+  "SOFY0405",
 
-/* 🔁 INTERCALADO */
+  "ROBER51B","ROBER51B","ROBER51B","ROBER51B","ROBER51B",
+  "ROBER51B","ROBER51B","ROBER51B","ROBER51B","ROBER51B",
+
+  "MALE3515","MALE3515","MALE3515","MALE3515","MALE3515",
+  "MALE3515","MALE3515","MALE3515","MALE3515","MALE3515",
+  "MALE3515","MALE3515","MALE3515","MALE3515","MALE3515",
+  "MALE3515","MALE3515","MALE3515","MALE3515","MALE3515",
+
+  "EUGE3362",
+  "MELANY7867",
+  "CELIA5176","CELIA5176","CELIA5176",
+  "ALE7152","ALE7152",
+
+  "GER557","GER557","GER557","GER557","GER557","GER557",
+  "GER557","GER557","GER557","GER557","GER557","GER557",
+
+  "TIHAGO1290","TIHAGO1290","TIHAGO1290","TIHAGO1290","TIHAGO1290",
+  "TIHAGO1290","TIHAGO1290","TIHAGO1290","TIHAGO1290","TIHAGO1290",
+  "TIHAGO1290","TIHAGO1290","TIHAGO1290","TIHAGO1290","TIHAGO1290",
+
+  "ROSBILAT",
+  "AINARA8437",
+  "MABEL5430",
+  "NATI4774",
+  "MARIELA0711","MARIELA0711",
+  "CRIS0966","CRIS0966",
+  "NOEMI3287",
+  "NICO2072",
+  "KAREN6558",
+  "JASMIN2544",
+  "TAMARA0846",
+  "PAO3577",
+  "MONICA8933",
+  "NAZA7611",
+  "EV4758",
+  "KARINA3941",
+  "GABI2698",
+  "JORGE6017",
+  "YANNI3932",
+  "SANDRA6551",
+
+  "GIME3471","GIME3471","GIME3471","GIME3471","GIME3471","GIME3471",
+  "GIME3471","GIME3471","GIME3471","GIME3471","GIME3471","GIME3471"
+];
+
+/* INTERCALADO */
 function intercalar(lista){
-  const conteo = {};
-  lista.forEach(n => conteo[n] = (conteo[n] || 0) + 1);
-  const nombres = Object.keys(conteo);
-  const res = [];
+  const c = {};
+  lista.forEach(n => c[n] = (c[n] || 0) + 1);
+  const nombres = Object.keys(c);
+  const r = [];
   let quedan = true;
   while(quedan){
     quedan = false;
     for(const n of nombres){
-      if(conteo[n] > 0){
-        res.push(n);
-        conteo[n]--;
+      if(c[n] > 0){
+        r.push(n);
+        c[n]--;
         quedan = true;
       }
     }
   }
-  return res;
+  return r;
 }
 
 const participantes = intercalar(baseParticipantes);
@@ -222,7 +268,7 @@ const boton = document.getElementById("girar");
 const resultado = document.getElementById("resultado");
 
 const total = participantes.length;
-const radio = canvas.width / 2;
+const radio = canvas.width/2;
 const colores = ["#ff595e","#ffca3a","#8ac926","#1982c4","#6a4c93","#ff924c"];
 
 let anguloActual = 0;
@@ -230,7 +276,7 @@ let girando = false;
 
 function dibujarRuleta(){
   const ang = (2*Math.PI)/total;
-  participantes.forEach((nombre,i)=>{
+  participantes.forEach((n,i)=>{
     ctx.beginPath();
     ctx.moveTo(radio,radio);
     ctx.arc(radio,radio,radio,i*ang,(i+1)*ang);
@@ -243,14 +289,14 @@ function dibujarRuleta(){
     ctx.textAlign="right";
     ctx.fillStyle="#fff";
     ctx.font="bold 12px Arial";
-    ctx.fillText(nombre, radio-10, 4);
+    ctx.fillText(n, radio-10, 4);
     ctx.restore();
   });
 }
 
 dibujarRuleta();
 
-boton.addEventListener("click",()=>{
+boton.onclick=()=>{
   if(girando) return;
   girando=true;
   boton.disabled=true;
@@ -258,17 +304,16 @@ boton.addEventListener("click",()=>{
 
   const indice = participantes.indexOf("GIME3471");
   const grados = 360/total;
-  const anguloObjetivo = 270 - (indice*grados + grados/2);
-  const vueltas = 6*360;
-  const anguloFinal = vueltas + anguloObjetivo;
+  const objetivo = 270 - (indice*grados + grados/2);
+  const final = anguloActual + 6*360 + objetivo;
 
-  const duracion = 5000;
   const inicio = performance.now();
+  const duracion = 5000;
   const inicioAng = anguloActual;
 
   function animar(t){
     const p = Math.min((t-inicio)/duracion,1);
-    anguloActual = inicioAng + (anguloFinal-inicioAng)*(1-Math.pow(1-p,3));
+    anguloActual = inicioAng + (final-inicioAng)*(1-Math.pow(1-p,3));
 
     ctx.clearRect(0,0,canvas.width,canvas.height);
     ctx.save();
@@ -287,7 +332,7 @@ boton.addEventListener("click",()=>{
     }
   }
   requestAnimationFrame(animar);
-});
+};
 </script>
 
 </body>
