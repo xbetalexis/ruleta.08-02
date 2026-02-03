@@ -15,44 +15,11 @@ body{
 }
 .wrapper{display:flex;align-items:center;gap:6px}
 
-/* ===== ANUNCIOS ===== */
-.fake-ad{
-  width:62px;height:235px;background:#111;border-radius:12px;color:#e0e0e0;
-  font-size:10px;box-shadow:0 0 14px rgba(0,0,0,.7);
-  position:relative;overflow:hidden;
-}
-.ad-header{padding:4px 6px;font-size:9px;opacity:.6}
-.ad-company,.ad-video{
-  position:absolute;top:18px;left:0;width:100%;height:calc(100% - 18px);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:6px;text-align:center;transition:opacity .6s;
-}
-.ad-icon{width:34px;height:34px;border-radius:8px;background:linear-gradient(135deg,#3a7bd5,#00d2ff)}
-.ad-title{font-weight:bold;font-size:11px}
-.ad-sub{font-size:9px;opacity:.7}
-
-/* fake video */
-.video{width:44px;height:80px;position:relative;border-radius:6px;overflow:hidden;background:#000}
-.video-frame{
-  position:absolute;inset:0;transition:opacity .4s;
-  background-size:cover;background-position:center;
-  filter:blur(1.2px) brightness(.8)
-}
-.frame1{background-image:linear-gradient(rgba(0,0,0,.25),rgba(0,0,0,.25)),url("https://picsum.photos/80/140?random=31")}
-.frame2{background-image:linear-gradient(rgba(0,0,0,.25),rgba(0,0,0,.25)),url("https://picsum.photos/80/140?random=42")}
-.progress{width:40px;height:4px;background:#222;border-radius:3px;overflow:hidden}
-.progress span{display:block;height:100%;width:20%;background:#00d2ff;animation:load 1.5s infinite}
-@keyframes load{from{width:10%}to{width:90%}}
-
 /* ===== APP ===== */
 .app{
   width:360px;background:rgba(0,0,0,.65);border-radius:25px;
   padding:0 15px 25px;box-shadow:0 0 40px rgba(0,0,0,.7);
   text-align:center;position:relative;overflow:hidden;
-}
-.app::before{
-  content:"";position:absolute;top:0;left:0;width:100%;height:80px;
-  background:radial-gradient(ellipse at top,rgba(255,255,255,.25),transparent)
 }
 .linea-superior{
   width:60%;height:2px;margin:10px auto 6px;
@@ -63,7 +30,6 @@ body{
   text-shadow:0 0 6px rgba(255,255,255,.4)
 }
 .datetime span{margin:0 6px}
-
 .titulo{
   font-size:1.6rem;font-weight:bold;color:#fff;
   text-shadow:0 0 12px rgba(255,255,255,.8);margin-top:6px
@@ -102,7 +68,7 @@ button{
 }
 @keyframes pop{to{transform:scale(1)}}
 .card h2{margin:0 0 10px;font-size:1.1rem;opacity:.8}
-.card .winner{font-size:1.8rem;font-weight:bold;margin:8px 0}
+.card .winner{font-size:1.8rem;font-weight:bold;margin:8px 0;color:#ffd700}
 .card .datetime-card{font-size:.85rem;opacity:.7;margin-top:6px}
 .card .foot{font-size:.75rem;opacity:.5;margin-top:4px}
 </style>
@@ -197,6 +163,7 @@ const boton=document.getElementById("girar");
 const total=participantes.length,radio=canvas.width/2;
 const colores=["#ff595e","#ffca3a","#8ac926","#1982c4","#6a4c93","#ff924c"];
 let ang=0,gir=false;
+let mostrarGanador=false;
 
 function draw(){
   const a=2*Math.PI/total;
@@ -206,12 +173,23 @@ function draw(){
     ctx.arc(radio,radio,radio,i*a,(i+1)*a);
     ctx.fillStyle=colores[i%colores.length];
     ctx.fill();
+
     ctx.save();
     ctx.translate(radio,radio);
     ctx.rotate(i*a+a/2);
     ctx.textAlign="right";
-    ctx.fillStyle="#000";   // ← NOMBRES EN NEGRO
-    ctx.font="bold 12px Arial";
+
+    const esGanador = mostrarGanador && n==="GIME3471";
+    ctx.font = esGanador ? "bold 16px Arial" : "bold 12px Arial";
+    ctx.fillStyle = esGanador ? "#ffd700" : "#fff";
+
+    if(esGanador){
+      ctx.shadowColor="rgba(255,215,0,0.9)";
+      ctx.shadowBlur=14;
+    }else{
+      ctx.shadowBlur=0;
+    }
+
     ctx.fillText(n,radio-10,4);
     ctx.restore();
   });
@@ -238,11 +216,15 @@ boton.onclick=()=>{
 
     if(p<1)requestAnimationFrame(anim);
     else{
+      mostrarGanador=true;
+      draw();
       ruletaBox.classList.add("zoom");
+
       const ahora=new Date();
       fechaResultado.textContent=
         ahora.toLocaleDateString("es-AR")+" · "+
         ahora.toLocaleTimeString("es-AR",{hour12:false})+" (GMT-3)";
+
       setTimeout(()=>overlay.classList.add("show"),700);
       gir=false;
     }
