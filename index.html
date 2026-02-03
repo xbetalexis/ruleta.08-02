@@ -134,7 +134,6 @@ button:disabled{opacity:.6}
 
 <div class="app">
 
-  <!-- ✨ LÍNEA DECORATIVA -->
   <div class="linea-superior"></div>
 
   <div class="titulo">PÁGINA DE SORTEOS</div>
@@ -149,23 +148,37 @@ button:disabled{opacity:.6}
 </div>
 
 <script>
-/* 👉 ACÁ CARGÁS LOS NOMBRES */
+/* 👉 PARTICIPANTES (según cargas) */
 const participantes = [
-  "Daniel",
-  "Marlon",
-  "Spencer",
-  "Katharine",
-  "Bette",
-  "Jack",
-  "Ingrid",
-  "Denzel",
-  "Gary",
-  "Meryl",
-  "Cate",
-  "Robert",
-  "Dustin",
-  "Jessica",
-  "Jane"
+  "gise2145",
+
+  "dai4239","dai4239",
+
+  "milagros3140",
+  "KARY8538",
+  "MELI123",
+  "TOMAS4392",
+  "SOFY0405",
+
+  "ROBER51B","ROBER51B","ROBER51B","ROBER51B","ROBER51B",
+  "ROBER51B","ROBER51B","ROBER51B","ROBER51B","ROBER51B",
+
+  "MALE3515","MALE3515","MALE3515","MALE3515","MALE3515",
+  "MALE3515","MALE3515","MALE3515","MALE3515","MALE3515",
+  "MALE3515","MALE3515","MALE3515","MALE3515","MALE3515",
+  "MALE3515","MALE3515","MALE3515","MALE3515","MALE3515",
+
+  "EUGE3362",
+  "MELANY7867",
+  "CELIA5176",
+  "ALE7152",
+
+  "GER557","GER557","GER557","GER557","GER557","GER557",
+  "GER557","GER557","GER557","GER557","GER557","GER557",
+
+  "TIHAGO1290","TIHAGO1290","TIHAGO1290","TIHAGO1290","TIHAGO1290",
+  "TIHAGO1290","TIHAGO1290","TIHAGO1290","TIHAGO1290","TIHAGO1290",
+  "TIHAGO1290","TIHAGO1290","TIHAGO1290","TIHAGO1290","TIHAGO1290"
 ];
 
 const canvas = document.getElementById("ruleta");
@@ -215,9 +228,10 @@ boton.addEventListener("click",()=>{
   boton.disabled=true;
   resultado.textContent="";
 
-  const indice = Math.floor(Math.random()*total);
-  const gradosPorSector = 360/total;
+  /* 🎯 GANADOR FIJO */
+  const indice = participantes.indexOf("ROBER51B");
 
+  const gradosPorSector = 360/total;
   const anguloObjetivo =
     270 - (indice*gradosPorSector + gradosPorSector/2);
 
@@ -244,7 +258,7 @@ boton.addEventListener("click",()=>{
     if(p<1){
       requestAnimationFrame(animar);
     }else{
-      resultado.textContent = `🎉 GANADOR: ${participantes[indice]}`;
+      resultado.textContent = `🎉 GANADOR: ROBER51B`;
       girando=false;
       boton.disabled=false;
     }
