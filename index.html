@@ -9,97 +9,49 @@
 body{
   margin:0;
   min-height:100vh;
-  background:linear-gradient(
-    135deg,#ff0000,#ff7f00,#ffff00,#00ff00,#00ffff,#0000ff,#8b00ff
-  );
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  background:linear-gradient(135deg,#ff0000,#ff7f00,#ffff00,#00ff00,#00ffff,#0000ff,#8b00ff);
+  display:flex;align-items:center;justify-content:center;
   font-family:Arial,sans-serif;
 }
-
 .wrapper{display:flex;align-items:center;gap:6px}
 
 /* ===== ANUNCIOS ===== */
 .fake-ad{
-  width:62px;height:235px;
-  background:#111;border-radius:12px;
-  color:#e0e0e0;font-size:10px;
-  box-shadow:0 0 14px rgba(0,0,0,.7);
+  width:62px;height:235px;background:#111;border-radius:12px;color:#e0e0e0;
+  font-size:10px;box-shadow:0 0 14px rgba(0,0,0,.7);
   position:relative;overflow:hidden;
 }
 .ad-header{padding:4px 6px;font-size:9px;opacity:.6}
-
 .ad-company,.ad-video{
-  position:absolute;top:18px;left:0;
-  width:100%;height:calc(100% - 18px);
-  display:flex;flex-direction:column;
-  align-items:center;justify-content:center;
-  gap:6px;text-align:center;
-  transition:opacity .6s;
+  position:absolute;top:18px;left:0;width:100%;height:calc(100% - 18px);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:6px;text-align:center;transition:opacity .6s;
 }
-.ad-icon{
-  width:34px;height:34px;border-radius:8px;
-  background:linear-gradient(135deg,#3a7bd5,#00d2ff);
-}
+.ad-icon{width:34px;height:34px;border-radius:8px;background:linear-gradient(135deg,#3a7bd5,#00d2ff)}
 .ad-title{font-weight:bold;font-size:11px}
 .ad-sub{font-size:9px;opacity:.7}
 
-/* ===== FAKE VIDEO CON PREVIEWS ===== */
-.video{
-  width:44px;height:80px;
-  position:relative;
-  border-radius:6px;
-  overflow:hidden;
-  background:#000;
-}
-
-.video-frame{
-  position:absolute;
-  inset:0;
-  background-size:cover;
-  background-position:center;
-  filter:blur(1.2px) brightness(.8);
-  transition:opacity .4s;
-}
-
-/* preview 1 */
+/* fake video */
+.video{width:44px;height:80px;position:relative;border-radius:6px;overflow:hidden;background:#000}
+.video-frame{position:absolute;inset:0;transition:opacity .4s;background-size:cover;background-position:center;filter:blur(1.2px) brightness(.8)}
 .frame1{
-  background-image:
-    linear-gradient(rgba(0,0,0,.25),rgba(0,0,0,.25)),
-    url("https://picsum.photos/80/140?random=11");
+  background-image:linear-gradient(rgba(0,0,0,.25),rgba(0,0,0,.25)),url("https://picsum.photos/80/140?random=31");
 }
-
-/* preview 2 */
 .frame2{
-  background-image:
-    linear-gradient(rgba(0,0,0,.25),rgba(0,0,0,.25)),
-    url("https://picsum.photos/80/140?random=22");
+  background-image:linear-gradient(rgba(0,0,0,.25),rgba(0,0,0,.25)),url("https://picsum.photos/80/140?random=42");
 }
-
-.progress{
-  width:40px;height:4px;
-  background:#222;border-radius:3px;
-  overflow:hidden;
-}
-.progress span{
-  display:block;height:100%;
-  width:20%;
-  background:#00d2ff;
-  animation:load 1.5s infinite;
-}
+.progress{width:40px;height:4px;background:#222;border-radius:3px;overflow:hidden}
+.progress span{display:block;height:100%;width:20%;background:#00d2ff;animation:load 1.5s infinite}
 @keyframes load{from{width:10%}to{width:90%}}
 
 /* ===== APP ===== */
 .app{
-  width:360px;background:rgba(0,0,0,.65);
-  border-radius:25px;padding:0 15px 25px;
-  box-shadow:0 0 40px rgba(0,0,0,.7);
+  width:360px;background:rgba(0,0,0,.65);border-radius:25px;
+  padding:0 15px 25px;box-shadow:0 0 40px rgba(0,0,0,.7);
   text-align:center;position:relative;overflow:hidden;
 }
 .app::before{
-  content:"";position:absolute;top:0;left:0;
-  width:100%;height:80px;
+  content:"";position:absolute;top:0;left:0;width:100%;height:80px;
   background:radial-gradient(ellipse at top,rgba(255,255,255,.25),transparent)
 }
 .linea-superior{
@@ -109,19 +61,13 @@ body{
 .titulo{font-size:1.6rem;font-weight:bold;color:#fff;text-shadow:0 0 12px rgba(255,255,255,.8)}
 .ruleta-container{position:relative;width:280px;height:280px;margin:10px auto 20px}
 .flecha{
-  position:absolute;top:-2px;left:50%;
-  transform:translateX(-50%);
-  width:0;height:0;
-  border-left:14px solid transparent;
-  border-right:14px solid transparent;
-  border-top:24px solid #fff;
+  position:absolute;top:-2px;left:50%;transform:translateX(-50%);
+  width:0;height:0;border-left:14px solid transparent;border-right:14px solid transparent;border-top:24px solid #fff
 }
 canvas{width:100%;height:100%;border-radius:50%;background:#fff}
 button{
-  width:85%;padding:14px;font-size:1.1rem;
-  border-radius:30px;border:none;
-  background:linear-gradient(45deg,#ff9f00,#ff6a00);
-  color:#fff;font-weight:bold
+  width:85%;padding:14px;font-size:1.1rem;border-radius:30px;border:none;
+  background:linear-gradient(45deg,#ff9f00,#ff6a00);color:#fff;font-weight:bold
 }
 .resultado{margin-top:15px;font-size:1.3rem;color:#fff;text-shadow:0 0 10px rgba(255,255,255,.8)}
 </style>
@@ -182,7 +128,7 @@ button{
 </div>
 
 <script>
-/* ===== ADS ===== */
+/* ===== ADS DINÁMICOS ===== */
 const ads=[
  {t:"NEXA SYSTEMS",s:"Mobile Solutions"},
  {t:"ORBITAL LABS",s:"Smart Apps"},
@@ -190,7 +136,6 @@ const ads=[
  {t:"AURORA SOFT",s:"Digital Tools"}
 ];
 let ai=0,showVideo=false;
-
 function rotarAds(){
   const lc=document.getElementById("lc"),lv=document.getElementById("lv"),
         rc=document.getElementById("rc"),rv=document.getElementById("rv");
@@ -210,43 +155,66 @@ function rotarAds(){
 }
 setInterval(rotarAds,6000);rotarAds();
 
-/* alternar frames del video */
+/* alternar frames del fake video */
 setInterval(()=>{
   document.querySelectorAll(".video").forEach(v=>{
     const f1=v.children[0],f2=v.children[1];
-    f1.style.opacity=f1.style.opacity==="0"?"1":"0";
-    f2.style.opacity=f1.style.opacity==="0"?"1":"0";
+    f1.style.opacity = f1.style.opacity==="0" ? "1" : "0";
+    f2.style.opacity = f1.style.opacity==="0" ? "1" : "0";
   });
 },800);
 
-/* ===== PARTICIPANTES ===== */
+/* ===== PARTICIPANTES (LISTA NUEVA) ===== */
 const baseParticipantes=[
-  "MILAGROS3140","KARY8538","KARY8538","MELI123",
-  "TOMAS4392","TOMAS4392","SOFY0405",
+  "GISE2145","GISE2145",
+  "DAI4239","DAI4239",
+  "MILAGROS3140",
+  "KARY8538","KARY8538",
+  "MELI123",
+  "TOMAS4392","TOMAS4392",
+  "SOFY0405",
   "ROBER51B","ROBER51B","ROBER51B","ROBER51B","ROBER51B",
   "ROBER51B","ROBER51B","ROBER51B","ROBER51B","ROBER51B",
   "MALE3515","MALE3515","MALE3515","MALE3515","MALE3515",
   "MALE3515","MALE3515","MALE3515","MALE3515","MALE3515",
   "MALE3515","MALE3515","MALE3515","MALE3515","MALE3515",
   "MALE3515","MALE3515","MALE3515","MALE3515","MALE3515",
-  "EUGE3362","MELANY7867",
+  "EUGE3362",
+  "MELANY7867",
   "CELIA5176","CELIA5176","CELIA5176",
-  "ALE7152","ALE7152",
+  "ALE7152","ALE7152","ALE7152",
   "GER557","GER557","GER557","GER557","GER557","GER557",
   "GER557","GER557","GER557","GER557","GER557","GER557",
   "TIHAGO1290","TIHAGO1290","TIHAGO1290","TIHAGO1290","TIHAGO1290",
   "TIHAGO1290","TIHAGO1290","TIHAGO1290","TIHAGO1290","TIHAGO1290",
   "TIHAGO1290","TIHAGO1290","TIHAGO1290","TIHAGO1290","TIHAGO1290",
-  "ROSBILAT","AINARA8437","MABEL5430","NATI4774",
+  "ROSBILAT",
+  "AINARA8437",
+  "MABEL5430",
+  "NATI4774",
   "MARIELA0711","MARIELA0711",
   "CRIS0966","CRIS0966",
-  "NOEMI3287","NICO2072","KAREN6558","JASMIN2544",
-  "TAMARA0846","PAO3577","MONICA8933","NAZA7611","EV4758",
-  "KARINA3941","GABI2698","JORGE6017","YANNI3932","SANDRA6551",
+  "NOEMI3287",
+  "NICO2072",
+  "KAREN6558",
+  "JASMIN2544",
+  "TAMARA0846",
+  "PAO3577",
+  "MONICA8933",
+  "NAZA7611",
+  "EV4758",
+  "KARINA3941",
+  "GABI2698",
+  "JORGE6017",
+  "YANNI3932","YANNI3932",
+  "SANDRA6551",
   "GIME3471","GIME3471","GIME3471","GIME3471","GIME3471","GIME3471",
-  "GIME3471","GIME3471","GIME3471","GIME3471","GIME3471","GIME3471"
+  "GIME3471","GIME3471","GIME3471","GIME3471","GIME3471","GIME3471",
+  "YOHANA0608",
+  "ceci6655"
 ];
 
+/* intercalar para que no queden juntos */
 function intercalar(l){
   const c={},r=[];l.forEach(n=>c[n]=(c[n]||0)+1);
   let k=Object.keys(c),ok=true;
@@ -277,7 +245,7 @@ draw();
 
 boton.onclick=()=>{
   if(gir)return;gir=true;res.textContent="";
-  const idx=participantes.indexOf("GIME3471");
+  const idx=participantes.indexOf("GIME3471"); // GANADOR FIJO
   const g=360/total;
   const fin=ang+6*360+(270-(idx*g+g/2));
   const ini=performance.now(),dur=5000,ia=ang;
