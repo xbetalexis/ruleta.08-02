@@ -37,6 +37,7 @@ body{
   overflow: hidden;
 }
 
+/* ✨ GLOW SUPERIOR */
 .app::before{
   content:"";
   position:absolute;
@@ -52,6 +53,7 @@ body{
   pointer-events:none;
 }
 
+/* ➖ LÍNEA FINITA */
 .linea-superior{
   width:60%;
   height:2px;
@@ -65,6 +67,7 @@ body{
   border-radius:2px;
 }
 
+/* 🔥 TÍTULO */
 .titulo{
   font-size:1.6rem;
   font-weight:bold;
@@ -82,6 +85,7 @@ body{
   margin:10px auto 20px;
 }
 
+/* 🔻 FLECHA ARRIBA – PUNTA HACIA ABAJO (∇) */
 .flecha{
   position:absolute;
   top:-2px;
@@ -143,59 +147,137 @@ button:disabled{opacity:.6}
 </div>
 
 <script>
-/* 🔹 LISTA BASE (con repeticiones por cargas) */
+/* 🔹 LISTA BASE (repeticiones = cargas) */
 const baseParticipantes = [
-  "gise2145",
-  "dai4239","dai4239",
-  "milagros3140",
-  "KARY8538",
+  // MILAGROS3140 (1)
+  "MILAGROS3140",
+
+  // KARY8538 (2)
+  "KARY8538","KARY8538",
+
+  // MELI123 (1)
   "MELI123",
-  "TOMAS4392",
+
+  // TOMAS4392 (2)
+  "TOMAS4392","TOMAS4392",
+
+  // SOFY0405 (1)
   "SOFY0405",
 
+  // ROBER51B (10)
   "ROBER51B","ROBER51B","ROBER51B","ROBER51B","ROBER51B",
   "ROBER51B","ROBER51B","ROBER51B","ROBER51B","ROBER51B",
 
+  // MALE3515 (20)
   "MALE3515","MALE3515","MALE3515","MALE3515","MALE3515",
   "MALE3515","MALE3515","MALE3515","MALE3515","MALE3515",
   "MALE3515","MALE3515","MALE3515","MALE3515","MALE3515",
   "MALE3515","MALE3515","MALE3515","MALE3515","MALE3515",
 
+  // EUGE3362 (1)
   "EUGE3362",
+
+  // MELANY7867 (1)
   "MELANY7867",
-  "CELIA5176",
-  "ALE7152",
 
+  // CELIA5176 (3)
+  "CELIA5176","CELIA5176","CELIA5176",
+
+  // ALE7152 (2)
+  "ALE7152","ALE7152",
+
+  // GER557 (12)
   "GER557","GER557","GER557","GER557","GER557","GER557",
   "GER557","GER557","GER557","GER557","GER557","GER557",
 
+  // TIHAGO1290 (15)
   "TIHAGO1290","TIHAGO1290","TIHAGO1290","TIHAGO1290","TIHAGO1290",
   "TIHAGO1290","TIHAGO1290","TIHAGO1290","TIHAGO1290","TIHAGO1290",
-  "TIHAGO1290","TIHAGO1290","TIHAGO1290","TIHAGO1290","TIHAGO1290"
+  "TIHAGO1290","TIHAGO1290","TIHAGO1290","TIHAGO1290","TIHAGO1290",
+
+  // ROSBILAT (1)
+  "ROSBILAT",
+
+  // AINARA8437 (1)
+  "AINARA8437",
+
+  // MABEL5430 (1)
+  "MABEL5430",
+
+  // NATI4774 (1)
+  "NATI4774",
+
+  // MARIELA0711 (2)
+  "MARIELA0711","MARIELA0711",
+
+  // CRIS0966 (2)
+  "CRIS0966","CRIS0966",
+
+  // NOEMI3287 (1)
+  "NOEMI3287",
+
+  // NICO2072 (1)
+  "NICO2072",
+
+  // KAREN6558 (1)
+  "KAREN6558",
+
+  // JASMIN2544 (1)
+  "JASMIN2544",
+
+  // TAMARA0846 (1)
+  "TAMARA0846",
+
+  // PAO3577 (1)
+  "PAO3577",
+
+  // MONICA8933 (1)
+  "MONICA8933",
+
+  // NAZA7611 (1)
+  "NAZA7611",
+
+  // EV4758 (1)
+  "EV4758",
+
+  // KARINA3941 (1)
+  "KARINA3941",
+
+  // GABI2698 (1)
+  "GABI2698",
+
+  // JORGE6017 (1)
+  "JORGE6017",
+
+  // YANNI3932 (1)
+  "YANNI3932",
+
+  // SANDRA6551 (1)
+  "SANDRA6551",
+
+  // GIME3471 (12)
+  "GIME3471","GIME3471","GIME3471","GIME3471","GIME3471","GIME3471",
+  "GIME3471","GIME3471","GIME3471","GIME3471","GIME3471","GIME3471"
 ];
 
-/* 🔁 INTERCALADO AUTOMÁTICO */
+/* 🔁 INTERCALADO (round-robin) */
 function intercalar(lista){
-  const mapa = {};
-  lista.forEach(n => {
-    mapa[n] = mapa[n] ? mapa[n]+1 : 1;
-  });
-
-  const nombres = Object.keys(mapa);
-  const resultado = [];
-
+  const conteo = {};
+  lista.forEach(n => conteo[n] = (conteo[n] || 0) + 1);
+  const nombres = Object.keys(conteo);
+  const res = [];
   let quedan = true;
   while(quedan){
     quedan = false;
     for(const n of nombres){
-      if(mapa[n] > 0){
-        resultado.push(n);
-        mapa[n]--;
+      if(conteo[n] > 0){
+        res.push(n);
+        conteo[n]--;
         quedan = true;
       }
     }
   }
-  return resultado;
+  return res;
 }
 
 const participantes = intercalar(baseParticipantes);
@@ -207,27 +289,23 @@ const resultado = document.getElementById("resultado");
 
 const total = participantes.length;
 const radio = canvas.width / 2;
-const colores = [
-  "#ff595e","#ffca3a","#8ac926",
-  "#1982c4","#6a4c93","#ff924c"
-];
+const colores = ["#ff595e","#ffca3a","#8ac926","#1982c4","#6a4c93","#ff924c"];
 
 let anguloActual = 0;
 let girando = false;
 
 function dibujarRuleta(){
-  const angulo = (2*Math.PI)/total;
-
+  const ang = (2*Math.PI)/total;
   participantes.forEach((nombre,i)=>{
     ctx.beginPath();
     ctx.moveTo(radio,radio);
-    ctx.arc(radio,radio,radio,i*angulo,(i+1)*angulo);
+    ctx.arc(radio,radio,radio,i*ang,(i+1)*ang);
     ctx.fillStyle = colores[i%colores.length];
     ctx.fill();
 
     ctx.save();
     ctx.translate(radio,radio);
-    ctx.rotate(i*angulo + angulo/2);
+    ctx.rotate(i*ang + ang/2);
     ctx.textAlign="right";
     ctx.fillStyle="#fff";
     ctx.font="bold 12px Arial";
@@ -244,11 +322,11 @@ boton.addEventListener("click",()=>{
   boton.disabled=true;
   resultado.textContent="";
 
-  const indice = participantes.indexOf("ROBER51B");
+  /* 🎯 GANADOR FIJO */
+  const indice = participantes.indexOf("GIME3471");
 
   const grados = 360/total;
-  const anguloObjetivo =
-    270 - (indice*grados + grados/2);
+  const anguloObjetivo = 270 - (indice*grados + grados/2);
 
   const vueltas = 6*360;
   const anguloFinal = vueltas + anguloObjetivo;
@@ -272,12 +350,11 @@ boton.addEventListener("click",()=>{
     if(p<1){
       requestAnimationFrame(animar);
     }else{
-      resultado.textContent = "🎉 GANADOR: ROBER51B";
+      resultado.textContent = "🎉 GANADOR: GIME3471";
       girando=false;
       boton.disabled=false;
     }
   }
-
   requestAnimationFrame(animar);
 });
 </script>
