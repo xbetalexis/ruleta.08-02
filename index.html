@@ -38,12 +38,8 @@ body{
   background-size:cover;background-position:center;
   filter:blur(1.2px) brightness(.8)
 }
-.frame1{
-  background-image:linear-gradient(rgba(0,0,0,.25),rgba(0,0,0,.25)),url("https://picsum.photos/80/140?random=31");
-}
-.frame2{
-  background-image:linear-gradient(rgba(0,0,0,.25),rgba(0,0,0,.25)),url("https://picsum.photos/80/140?random=42");
-}
+.frame1{background-image:linear-gradient(rgba(0,0,0,.25),rgba(0,0,0,.25)),url("https://picsum.photos/80/140?random=31")}
+.frame2{background-image:linear-gradient(rgba(0,0,0,.25),rgba(0,0,0,.25)),url("https://picsum.photos/80/140?random=42")}
 .progress{width:40px;height:4px;background:#222;border-radius:3px;overflow:hidden}
 .progress span{display:block;height:100%;width:20%;background:#00d2ff;animation:load 1.5s infinite}
 @keyframes load{from{width:10%}to{width:90%}}
@@ -63,20 +59,16 @@ body{
   background:linear-gradient(90deg,transparent,rgba(255,255,255,.8),transparent)
 }
 
-/* ===== FECHA Y HORA ===== */
+/* fecha y hora */
 .datetime{
-  font-size:.85rem;
-  color:#eaeaea;
-  letter-spacing:.5px;
-  margin-top:8px;
-  text-shadow:0 0 6px rgba(255,255,255,.4);
+  font-size:.85rem;color:#eaeaea;margin-top:8px;
+  text-shadow:0 0 6px rgba(255,255,255,.4)
 }
 .datetime span{margin:0 6px}
 
 .titulo{
   font-size:1.6rem;font-weight:bold;color:#fff;
-  text-shadow:0 0 12px rgba(255,255,255,.8);
-  margin-top:6px;
+  text-shadow:0 0 12px rgba(255,255,255,.8);margin-top:6px
 }
 
 .ruleta-container{position:relative;width:280px;height:280px;margin:10px auto 20px}
@@ -88,10 +80,47 @@ body{
 canvas{width:100%;height:100%;border-radius:50%;background:#fff}
 button{
   width:85%;padding:14px;font-size:1.1rem;border-radius:30px;border:none;
-  background:linear-gradient(45deg,#ff9f00,#ff6a00);
-  color:#fff;font-weight:bold
+  background:linear-gradient(45deg,#ff9f00,#ff6a00);color:#fff;font-weight:bold
 }
-.resultado{margin-top:15px;font-size:1.3rem;color:#fff;text-shadow:0 0 10px rgba(255,255,255,.8)}
+
+/* ===== CARD GANADOR PRO ===== */
+.overlay{
+  position:absolute;inset:0;
+  background:rgba(0,0,0,.65);
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;
+  transition:opacity .5s;
+}
+.overlay.show{opacity:1;pointer-events:auto}
+
+.card{
+  background:#111;
+  border-radius:20px;
+  padding:26px 30px;
+  text-align:center;
+  color:#fff;
+  box-shadow:0 0 30px rgba(0,0,0,.9);
+  transform:scale(.8);
+  animation:pop .5s forwards;
+}
+@keyframes pop{
+  to{transform:scale(1)}
+}
+.card h2{
+  margin:0 0 10px;
+  font-size:1.1rem;
+  opacity:.8;
+}
+.card .winner{
+  font-size:1.8rem;
+  font-weight:bold;
+  margin:8px 0;
+}
+.card .foot{
+  font-size:.8rem;
+  opacity:.6;
+}
+
 </style>
 </head>
 
@@ -118,10 +147,9 @@ button{
   </div>
 
   <!-- APP -->
-  <div class="app">
+  <div class="app" id="app">
     <div class="linea-superior"></div>
 
-    <!-- FECHA Y HORA -->
     <div class="datetime">
       <span id="fecha"></span>
       <span>⏰</span>
@@ -136,7 +164,15 @@ button{
     </div>
 
     <button id="girar">GIRAR</button>
-    <div id="resultado" class="resultado"></div>
+
+    <!-- OVERLAY GANADOR -->
+    <div class="overlay" id="overlay">
+      <div class="card">
+        <h2>🏆 RESULTADO FINAL</h2>
+        <div class="winner">GIME3471</div>
+        <div class="foot">Sorteo validado</div>
+      </div>
+    </div>
   </div>
 
   <!-- AD DER -->
@@ -160,18 +196,15 @@ button{
 </div>
 
 <script>
-/* ===== FECHA Y HORA ===== */
+/* FECHA Y HORA */
 function actualizarHora(){
-  const ahora = new Date();
-  const f = ahora.toLocaleDateString("es-AR");
-  const h = ahora.toLocaleTimeString("es-AR",{hour12:false});
-  document.getElementById("fecha").textContent = f;
-  document.getElementById("hora").textContent = h;
+  const a=new Date();
+  document.getElementById("fecha").textContent=a.toLocaleDateString("es-AR");
+  document.getElementById("hora").textContent=a.toLocaleTimeString("es-AR",{hour12:false})+" (GMT-3)";
 }
-setInterval(actualizarHora,1000);
-actualizarHora();
+setInterval(actualizarHora,1000);actualizarHora();
 
-/* ===== ADS DINÁMICOS ===== */
+/* ADS */
 const ads=[
  {t:"NEXA SYSTEMS",s:"Mobile Solutions"},
  {t:"ORBITAL LABS",s:"Smart Apps"},
@@ -198,20 +231,19 @@ function rotarAds(){
 }
 setInterval(rotarAds,6000);rotarAds();
 
-/* alternar frames del fake video */
+/* alternar frames fake video */
 setInterval(()=>{
   document.querySelectorAll(".video").forEach(v=>{
     const f1=v.children[0],f2=v.children[1];
-    f1.style.opacity = f1.style.opacity==="0" ? "1" : "0";
-    f2.style.opacity = f1.style.opacity==="0" ? "1" : "0";
+    f1.style.opacity=f1.style.opacity==="0"?"1":"0";
+    f2.style.opacity=f1.style.opacity==="0"?"1":"0";
   });
 },800);
 
-/* ===== PARTICIPANTES ===== */
+/* PARTICIPANTES */
 const baseParticipantes=[
   "GISE2145","GISE2145","DAI4239","DAI4239","MILAGROS3140",
-  "KARY8538","KARY8538","MELI123","TOMAS4392","TOMAS4392",
-  "SOFY0405",
+  "KARY8538","KARY8538","MELI123","TOMAS4392","TOMAS4392","SOFY0405",
   "ROBER51B","ROBER51B","ROBER51B","ROBER51B","ROBER51B",
   "ROBER51B","ROBER51B","ROBER51B","ROBER51B","ROBER51B",
   "MALE3515","MALE3515","MALE3515","MALE3515","MALE3515",
@@ -236,7 +268,6 @@ const baseParticipantes=[
   "GIME3471","GIME3471","GIME3471","GIME3471","GIME3471","GIME3471",
   "YOHANA0608","ceci6655"
 ];
-
 function intercalar(l){
   const c={},r=[];l.forEach(n=>c[n]=(c[n]||0)+1);
   let k=Object.keys(c),ok=true;
@@ -245,9 +276,9 @@ function intercalar(l){
 }
 const participantes=intercalar(baseParticipantes);
 
-/* ===== RULETA ===== */
+/* RULETA */
 const canvas=document.getElementById("ruleta"),ctx=canvas.getContext("2d");
-const boton=document.getElementById("girar"),res=document.getElementById("resultado");
+const boton=document.getElementById("girar");
 const total=participantes.length,radio=canvas.width/2;
 const colores=["#ff595e","#ffca3a","#8ac926","#1982c4","#6a4c93","#ff924c"];
 let ang=0,gir=false;
@@ -266,7 +297,7 @@ function draw(){
 draw();
 
 boton.onclick=()=>{
-  if(gir)return;gir=true;res.textContent="";
+  if(gir)return;gir=true;
   const idx=participantes.indexOf("GIME3471");
   const g=360/total;
   const fin=ang+6*360+(270-(idx*g+g/2));
@@ -279,7 +310,10 @@ boton.onclick=()=>{
     ctx.rotate(ang*Math.PI/180);ctx.translate(-radio,-radio);
     draw();ctx.restore();
     if(p<1)requestAnimationFrame(anim);
-    else{res.textContent="🎉 GANADOR: GIME3471";gir=false}
+    else{
+      document.getElementById("overlay").classList.add("show");
+      gir=false;
+    }
   }
   requestAnimationFrame(anim);
 };
