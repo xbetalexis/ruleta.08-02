@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Página de Sorteos</title>
+<title>Sorteo Oficial</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -20,27 +20,6 @@ body{
   .fake-ad{display:none}
   .wrapper{justify-content:center}
 }
-
-/* ===== ANUNCIOS ===== */
-.fake-ad{
-  width:62px;height:235px;background:#111;border-radius:12px;color:#e0e0e0;
-  font-size:10px;box-shadow:0 0 14px rgba(0,0,0,.7);
-  position:relative;overflow:hidden;
-}
-.ad-header{padding:4px 6px;font-size:9px;opacity:.6}
-.ad-company,.ad-video{
-  position:absolute;top:18px;left:0;width:100%;height:calc(100% - 18px);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:6px;text-align:center;transition:opacity .6s;
-}
-.ad-icon{width:34px;height:34px;border-radius:8px;background:linear-gradient(135deg,#3a7bd5,#00d2ff)}
-.ad-title{font-weight:bold;font-size:11px}
-.ad-sub{font-size:9px;opacity:.7}
-.video{width:44px;height:80px;border-radius:6px;background:#000}
-.video-frame{position:absolute;inset:0;filter:blur(1.2px) brightness(.8)}
-.progress{width:40px;height:4px;background:#222;border-radius:3px;overflow:hidden}
-.progress span{display:block;height:100%;width:20%;background:#00d2ff;animation:load 1.5s infinite}
-@keyframes load{from{width:10%}to{width:90%}}
 
 /* ===== APP ===== */
 .app{
@@ -75,15 +54,25 @@ body{
   text-shadow:0 0 6px rgba(255,255,255,.4)
 }
 
+/* ===== TÍTULO 3D BLANCO ===== */
 .titulo{
-  letter-spacing:1.5px;
-  text-transform:uppercase;
-  font-size:1.35rem;
-  font-weight:bold;
-  color:#fff;
   margin-top:6px;
 }
+.titulo-3d{
+  font-size:1.45rem;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color:#fff;
+  font-weight:bold;
+  text-shadow:
+    0 1px 0 #eaeaea,
+    0 2px 0 #dcdcdc,
+    0 3px 0 #cfcfcf,
+    0 4px 6px rgba(0,0,0,.85),
+    0 0 12px rgba(255,255,255,.45);
+}
 
+/* ===== RULETA ===== */
 .ruleta-container{
   position:relative;width:280px;height:280px;
   margin:12px auto 20px;
@@ -102,12 +91,13 @@ body{
 
 canvas{
   width:100%;height:100%;border-radius:50%;
+  background:#fff;
   box-shadow:
     0 10px 30px rgba(0,0,0,.6),
     inset 0 0 12px rgba(255,255,255,.25);
-  background:#fff;
 }
 
+/* ===== BOTÓN ===== */
 button{
   width:85%;padding:14px;font-size:1.1rem;border-radius:30px;border:none;
   background:linear-gradient(45deg,#ff9f00,#ff6a00);
@@ -145,13 +135,14 @@ button:active{transform:scale(.96)}
   50%{transform:scale(1.02)}
   100%{transform:scale(1)}
 }
+.card h2{margin:0 0 10px;font-size:1.05rem;opacity:.85}
 .card .winner{
   font-size:1.8rem;
   font-weight:bold;
   color:#ffd700;
   text-shadow:0 0 10px rgba(255,215,0,.8);
 }
-.card .foot{font-size:.75rem;opacity:.5}
+.card .foot{font-size:.75rem;opacity:.5;margin-top:6px}
 </style>
 </head>
 
@@ -160,8 +151,12 @@ button:active{transform:scale(.96)}
 <div class="wrapper">
   <div class="app">
     <div class="linea-superior"></div>
-    <div class="datetime"><span id="fecha"></span> ⏰ <span id="hora"></span></div>
-    <div class="titulo">Página de Sorteos</div>
+
+    <div class="datetime">
+      <span id="fecha"></span> ⏰ <span id="hora"></span>
+    </div>
+
+    <div class="titulo titulo-3d">SORTEO OFICIAL</div>
 
     <div class="ruleta-container" id="ruletaBox">
       <div class="flecha"></div>
@@ -181,6 +176,7 @@ button:active{transform:scale(.96)}
 </div>
 
 <script>
+/* FECHA Y HORA */
 function actualizarHora(){
   const a=new Date();
   fecha.textContent=a.toLocaleDateString("es-AR");
@@ -188,7 +184,10 @@ function actualizarHora(){
 }
 setInterval(actualizarHora,1000);actualizarHora();
 
+/* PARTICIPANTES (SORTEO ARMADO) */
 const participantes=["GIME3471","GIME3471","GIME3471","GIME3471"];
+
+/* RULETA */
 const canvas=document.getElementById("ruleta"),ctx=canvas.getContext("2d");
 const total=participantes.length,radio=canvas.width/2;
 const colores=["#ff595e","#ffca3a","#8ac926","#1982c4"];
@@ -209,7 +208,8 @@ draw();
 
 girar.onclick=()=>{
   if(gir)return;gir=true;
-  const idx=0;
+
+  const idx=0; // ganador forzado
   const g=360/total;
   const fin=ang+6*360+(270-(idx*g+g/2));
   const ini=performance.now(),dur=5000,ia=ang;
@@ -221,6 +221,7 @@ girar.onclick=()=>{
     ctx.save();ctx.translate(radio,radio);
     ctx.rotate(ang*Math.PI/180);ctx.translate(-radio,-radio);
     draw();ctx.restore();
+
     if(p<1)requestAnimationFrame(anim);
     else{
       ruletaBox.classList.add("zoom");
