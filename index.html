@@ -72,63 +72,32 @@ body{
   box-shadow:0 0 8px rgba(0,210,255,.7);
 }
 
-.ad-title{
-  font-weight:bold;
-  font-size:11px;
-}
+.ad-title{font-weight:bold;font-size:11px}
+.ad-sub{font-size:9px;opacity:.7}
 
-.ad-sub{
-  font-size:9px;
-  opacity:.7;
-}
-
-/* fake video */
 .video{
-  width:48px;
-  height:86px;
-  position:relative;
+  width:48px;height:86px;
   border-radius:8px;
-  overflow:hidden;
   background:#000;
+  overflow:hidden;
 }
-
 .video-frame{
-  position:absolute;
-  inset:0;
+  position:absolute;inset:0;
   background-size:cover;
   background-position:center;
   filter:blur(1px) brightness(.75);
-  transition:opacity .4s;
 }
-
-.frame1{
-  background-image:url("https://picsum.photos/90/160?random=11");
-}
-.frame2{
-  background-image:url("https://picsum.photos/90/160?random=22");
-  opacity:0;
-}
+.frame1{background-image:url("https://picsum.photos/90/160?random=11")}
+.frame2{background-image:url("https://picsum.photos/90/160?random=22");opacity:0}
 
 .progress{
-  width:44px;
-  height:4px;
-  background:#222;
-  border-radius:3px;
-  overflow:hidden;
+  width:44px;height:4px;background:#222;border-radius:3px;overflow:hidden
 }
-
 .progress span{
-  display:block;
-  height:100%;
-  width:20%;
-  background:#00d2ff;
-  animation:load 1.5s infinite;
+  display:block;height:100%;width:20%;
+  background:#00d2ff;animation:load 1.5s infinite
 }
-
-@keyframes load{
-  from{width:10%}
-  to{width:90%}
-}
+@keyframes load{from{width:10%}to{width:90%}}
 
 /* ===== APP ===== */
 .app{
@@ -145,13 +114,11 @@ body{
 }
 
 .datetime{
-  font-size:.85rem;
-  color:#eaeaea;
-  margin-top:8px;
-  text-shadow:0 0 6px rgba(255,255,255,.4);
+  font-size:.85rem;color:#eaeaea;margin-top:8px;
+  text-shadow:0 0 6px rgba(255,255,255,.4)
 }
 
-/* ===== TÍTULO 3D BLANCO ===== */
+/* TÍTULO 3D BLANCO */
 .titulo-3d{
   margin-top:6px;
   font-size:1.45rem;
@@ -168,23 +135,14 @@ body{
 }
 
 .ruleta-container{
-  position:relative;
-  width:280px;
-  height:280px;
+  position:relative;width:280px;height:280px;
   margin:12px auto 20px;
   transition:transform .6s ease;
 }
-.ruleta-container.zoom{
-  transform:scale(1.06);
-}
+.ruleta-container.zoom{transform:scale(1.06)}
 
 .flecha{
-  position:absolute;
-  top:-2px;
-  left:50%;
-  transform:translateX(-50%);
-  width:0;
-  height:0;
+  position:absolute;top:-2px;left:50%;transform:translateX(-50%);
   border-left:14px solid transparent;
   border-right:14px solid transparent;
   border-top:24px solid #ffd700;
@@ -192,73 +150,37 @@ body{
 }
 
 canvas{
-  width:100%;
-  height:100%;
-  border-radius:50%;
+  width:100%;height:100%;border-radius:50%;
   background:#fff;
-  box-shadow:
-    0 10px 30px rgba(0,0,0,.6),
-    inset 0 0 12px rgba(255,255,255,.25);
+  box-shadow:0 10px 30px rgba(0,0,0,.6),
+             inset 0 0 12px rgba(255,255,255,.25);
 }
 
 button{
-  width:85%;
-  padding:14px;
-  font-size:1.1rem;
-  border-radius:30px;
-  border:none;
+  width:85%;padding:14px;font-size:1.1rem;border-radius:30px;border:none;
   background:linear-gradient(45deg,#ff9f00,#ff6a00);
-  color:#fff;
-  font-weight:bold;
-  box-shadow:
-    0 6px 18px rgba(255,106,0,.6),
-    inset 0 1px 1px rgba(255,255,255,.4);
-  transition:.25s;
+  color:#fff;font-weight:bold;
+  box-shadow:0 6px 18px rgba(255,106,0,.6),
+             inset 0 1px 1px rgba(255,255,255,.4);
 }
-button:active{
-  transform:scale(.96);
-}
+button:active{transform:scale(.96)}
 
-/* ===== OVERLAY ===== */
 .overlay{
-  position:absolute;
-  inset:0;
-  background:rgba(0,0,0,.65);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  opacity:0;
-  pointer-events:none;
-  transition:opacity .5s;
+  position:absolute;inset:0;background:rgba(0,0,0,.65);
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;transition:.5s
 }
-.overlay.show{
-  opacity:1;
-  pointer-events:auto;
-}
+.overlay.show{opacity:1;pointer-events:auto}
 
 .card{
-  background:#111;
-  border-radius:20px;
-  padding:26px 30px;
-  text-align:center;
-  color:#fff;
-  box-shadow:
-    0 0 40px rgba(255,215,0,.25),
-    0 0 90px rgba(0,0,0,.9);
+  background:#111;border-radius:20px;padding:26px 30px;color:#fff;
+  box-shadow:0 0 40px rgba(255,215,0,.25),0 0 90px rgba(0,0,0,.9)
 }
-
 .card .winner{
-  font-size:1.8rem;
-  font-weight:bold;
-  color:#ffd700;
-  text-shadow:0 0 10px rgba(255,215,0,.8);
+  font-size:1.8rem;font-weight:bold;color:#ffd700;
+  text-shadow:0 0 10px rgba(255,215,0,.8)
 }
-
-.card .foot{
-  font-size:.75rem;
-  opacity:.5;
-  margin-top:6px;
-}
+.card .foot{font-size:.75rem;opacity:.5;margin-top:6px}
 </style>
 </head>
 
@@ -266,7 +188,7 @@ button:active{
 
 <div class="wrapper">
 
-  <!-- AD IZQUIERDO -->
+  <!-- AD IZQ -->
   <div class="fake-ad">
     <div class="ad-header">Ad · Sponsored</div>
     <div class="ad-company" id="adLCompany">
@@ -286,10 +208,7 @@ button:active{
 
   <!-- APP -->
   <div class="app">
-    <div class="datetime">
-      <span id="fecha"></span> ⏰ <span id="hora"></span>
-    </div>
-
+    <div class="datetime"><span id="fecha"></span> ⏰ <span id="hora"></span></div>
     <div class="titulo-3d">SORTEO OFICIAL</div>
 
     <div class="ruleta-container" id="ruletaBox">
@@ -308,7 +227,7 @@ button:active{
     </div>
   </div>
 
-  <!-- AD DERECHO -->
+  <!-- AD DER -->
   <div class="fake-ad">
     <div class="ad-header">Ad · Sponsored</div>
     <div class="ad-company" id="adRCompany">
@@ -335,27 +254,144 @@ function actualizarHora(){
   fecha.textContent=a.toLocaleDateString("es-AR");
   hora.textContent=a.toLocaleTimeString("es-AR",{hour12:false})+" (GMT-3)";
 }
-setInterval(actualizarHora,1000);
-actualizarHora();
+setInterval(actualizarHora,1000);actualizarHora();
 
-/* ADS ROTACIÓN */
-let showVideo=false;
-function rotarAds(){
-  ["L","R"].forEach(side=>{
-    const c=document.getElementById("ad"+side+"Company");
-    const v=document.getElementById("ad"+side+"Video");
-    if(showVideo){
-      c.style.opacity=1;
-      v.style.opacity=0;
-    }else{
-      c.style.opacity=0;
-      v.style.opacity=1;
+/* ===== PARTICIPANTES BASE ===== */
+const baseParticipantes = [
+  ..."GISE2145 ".repeat(4).trim().split(" "),
+  ..."DAI4239 ".repeat(2).trim().split(" "),
+  ..."MILAGROS3140 ".repeat(1).trim().split(" "),
+  ..."KARY8538 ".repeat(2).trim().split(" "),
+  ..."MELI123 ".repeat(1).trim().split(" "),
+  ..."TOMAS4392 ".repeat(2).trim().split(" "),
+  ..."SOFY0405 ".repeat(1).trim().split(" "),
+  ..."ROBER51B ".repeat(10).trim().split(" "),
+  ..."MALE3515 ".repeat(20).trim().split(" "),
+  ..."EUGE3362 ".repeat(1).trim().split(" "),
+  ..."MELANY7867 ".repeat(1).trim().split(" "),
+  ..."CELIA5176 ".repeat(5).trim().split(" "),
+  ..."ALE7152 ".repeat(3).trim().split(" "),
+  ..."GER557 ".repeat(12).trim().split(" "),
+  ..."TIHAGO1290 ".repeat(15).trim().split(" "),
+  ..."ROSBILAT ".repeat(1).trim().split(" "),
+  ..."AINARA8437 ".repeat(1).trim().split(" "),
+  ..."MABEL5430 ".repeat(1).trim().split(" "),
+  ..."NATI4774 ".repeat(2).trim().split(" "),
+  ..."MARIELA0711 ".repeat(3).trim().split(" "),
+  ..."CRIS0966 ".repeat(4).trim().split(" "),
+  ..."NOEMI3287 ".repeat(1).trim().split(" "),
+  ..."NICO2072 ".repeat(1).trim().split(" "),
+  ..."KAREN6558 ".repeat(1).trim().split(" "),
+  ..."JASMIN2544 ".repeat(5).trim().split(" "),
+  ..."TAMARA0846 ".repeat(1).trim().split(" "),
+  ..."PAO3577 ".repeat(1).trim().split(" "),
+  ..."MONICA8933 ".repeat(1).trim().split(" "),
+  ..."NAZA7611 ".repeat(1).trim().split(" "),
+  ..."EV4758 ".repeat(1).trim().split(" "),
+  ..."KARINA3941 ".repeat(1).trim().split(" "),
+  ..."GABI2698 ".repeat(1).trim().split(" "),
+  ..."JORGE6017 ".repeat(1).trim().split(" "),
+  ..."YANNI3932 ".repeat(3).trim().split(" "),
+  ..."SANDRA6551 ".repeat(1).trim().split(" "),
+  ..."GIME3471 ".repeat(12).trim().split(" "),
+  ..."YOHANA0608 ".repeat(2).trim().split(" "),
+  ..."CECI6655 ".repeat(1).trim().split(" "),
+  ..."LAUTARO0499 ".repeat(1).trim().split(" "),
+  ..."MIRTA5085 ".repeat(1).trim().split(" "),
+  ..."ANTO8693 ".repeat(2).trim().split(" "),
+  ..."DANIELA2613 ".repeat(1).trim().split(" "),
+  ..."ADRIAN0050 ".repeat(1).trim().split(" "),
+  ..."luz9129 ".repeat(1).trim().split(" "),
+  ..."DEVORA6647 ".repeat(1).trim().split(" "),
+  ..."JUSTINA0646 ".repeat(1).trim().split(" ")
+];
+
+/* INTERCALAR */
+function intercalar(lista){
+  const c={},r=[];
+  lista.forEach(n=>c[n]=(c[n]||0)+1);
+  const k=Object.keys(c);
+  let ok=true;
+  while(ok){
+    ok=false;
+    for(const n of k){
+      if(c[n]>0){
+        r.push(n);
+        c[n]--;
+        ok=true;
+      }
     }
+  }
+  return r;
+}
+const participantes = intercalar(baseParticipantes);
+
+/* RULETA */
+const canvas=document.getElementById("ruleta"),ctx=canvas.getContext("2d");
+const total=participantes.length,radio=canvas.width/2;
+const colores=["#ff595e","#ffca3a","#8ac926","#1982c4","#6a4c93"];
+let ang=0,gir=false;
+
+function draw(){
+  const arc=2*Math.PI/total;
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  participantes.forEach((n,i)=>{
+    ctx.beginPath();
+    ctx.moveTo(radio,radio);
+    ctx.arc(radio,radio,radio,i*arc,(i+1)*arc);
+    ctx.fillStyle=colores[i%colores.length];
+    ctx.fill();
+
+    ctx.save();
+    ctx.translate(radio,radio);
+    ctx.rotate(i*arc + arc/2);
+    ctx.textAlign="right";
+    ctx.fillStyle="#fff";
+    ctx.font="bold 10px Arial";
+    ctx.fillText(n, radio-8, 4);
+    ctx.restore();
+  });
+}
+draw();
+
+/* GIRAR */
+girar.onclick=()=>{
+  if(gir)return;gir=true;
+  const idx=participantes.indexOf("GIME3471");
+  const g=360/total;
+  const fin=ang+6*360+(270-(idx*g+g/2));
+  const ini=performance.now(),dur=5000,ia=ang;
+
+  function anim(t){
+    const p=Math.min((t-ini)/dur,1);
+    ang=ia+(fin-ia)*(1-Math.pow(1-p,3));
+    ctx.save();
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.translate(radio,radio);
+    ctx.rotate(ang*Math.PI/180);
+    ctx.translate(-radio,-radio);
+    draw();
+    ctx.restore();
+    if(p<1)requestAnimationFrame(anim);
+    else{
+      ruletaBox.classList.add("zoom");
+      fechaResultado.textContent=new Date().toLocaleString("es-AR");
+      overlay.classList.add("show");
+      gir=false;
+    }
+  }
+  requestAnimationFrame(anim);
+};
+
+/* ROTAR ADS */
+let showVideo=false;
+setInterval(()=>{
+  ["L","R"].forEach(s=>{
+    document.getElementById("ad"+s+"Company").style.opacity=showVideo?1:0;
+    document.getElementById("ad"+s+"Video").style.opacity=showVideo?0:1;
   });
   showVideo=!showVideo;
-}
-setInterval(rotarAds,6000);
-rotarAds();
+},6000);
 </script>
 
 </body>
