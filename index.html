@@ -15,10 +15,6 @@ body{
 }
 .wrapper{display:flex;align-items:center;gap:6px}
 
-@media (max-width:900px){
-  .wrapper{justify-content:center}
-}
-
 .app{
   width:360px;
   background:rgba(0,0,0,.65);
@@ -155,8 +151,8 @@ function actualizarHora(){
 }
 setInterval(actualizarHora,1000);actualizarHora();
 
-/* PARTICIPANTES */
-const participantes = [
+/* BASE PARTICIPANTES (CON REPETICIONES) */
+const baseParticipantes = [
   ..."GISE2145 ".repeat(4).trim().split(" "),
   ..."DAI4239 ".repeat(2).trim().split(" "),
   ..."MILAGROS3140 ".repeat(1).trim().split(" "),
@@ -205,6 +201,30 @@ const participantes = [
   ..."JUSTINA0646 ".repeat(1).trim().split(" ")
 ];
 
+/* 🔥 INTERCALAR PARTICIPANTES */
+function intercalar(lista){
+  const conteo = {};
+  lista.forEach(n => conteo[n] = (conteo[n] || 0) + 1);
+
+  const nombres = Object.keys(conteo);
+  const resultado = [];
+  let quedan = true;
+
+  while(quedan){
+    quedan = false;
+    for(const n of nombres){
+      if(conteo[n] > 0){
+        resultado.push(n);
+        conteo[n]--;
+        quedan = true;
+      }
+    }
+  }
+  return resultado;
+}
+
+const participantes = intercalar(baseParticipantes);
+
 /* RULETA */
 const canvas=document.getElementById("ruleta");
 const ctx=canvas.getContext("2d");
@@ -221,14 +241,12 @@ function draw(){
     const start=i*arc;
     const end=start+arc;
 
-    // segmento
     ctx.beginPath();
     ctx.moveTo(radio,radio);
     ctx.arc(radio,radio,radio,start,end);
     ctx.fillStyle=colores[i%colores.length];
     ctx.fill();
 
-    // texto
     ctx.save();
     ctx.translate(radio,radio);
     ctx.rotate(start + arc/2);
@@ -244,7 +262,7 @@ draw();
 girar.onclick=()=>{
   if(gir)return;gir=true;
 
-  const idx=participantes.indexOf("GIME3471");
+  const idx=participantes.indexOf("GIME3471"); // ganador forzado
   const g=360/total;
   const fin=ang+6*360+(270-(idx*g+g/2));
   const ini=performance.now(),dur=5000,ia=ang;
