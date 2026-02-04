@@ -15,6 +15,12 @@ body{
 }
 .wrapper{display:flex;align-items:center;gap:6px}
 
+/* ===== RESPONSIVE ===== */
+@media (max-width:900px){
+  .fake-ad{display:none}
+  .wrapper{justify-content:center}
+}
+
 /* ===== ANUNCIOS ===== */
 .fake-ad{
   width:62px;height:235px;background:#111;border-radius:12px;color:#e0e0e0;
@@ -30,69 +36,90 @@ body{
 .ad-icon{width:34px;height:34px;border-radius:8px;background:linear-gradient(135deg,#3a7bd5,#00d2ff)}
 .ad-title{font-weight:bold;font-size:11px}
 .ad-sub{font-size:9px;opacity:.7}
-
-/* fake video */
-.video{width:44px;height:80px;position:relative;border-radius:6px;overflow:hidden;background:#000}
-.video-frame{
-  position:absolute;inset:0;transition:opacity .4s;
-  background-size:cover;background-position:center;
-  filter:blur(1.2px) brightness(.8)
-}
-.frame1{background-image:linear-gradient(rgba(0,0,0,.25),rgba(0,0,0,.25)),url("https://picsum.photos/80/140?random=31")}
-.frame2{background-image:linear-gradient(rgba(0,0,0,.25),rgba(0,0,0,.25)),url("https://picsum.photos/80/140?random=42")}
+.video{width:44px;height:80px;border-radius:6px;background:#000}
+.video-frame{position:absolute;inset:0;filter:blur(1.2px) brightness(.8)}
 .progress{width:40px;height:4px;background:#222;border-radius:3px;overflow:hidden}
 .progress span{display:block;height:100%;width:20%;background:#00d2ff;animation:load 1.5s infinite}
 @keyframes load{from{width:10%}to{width:90%}}
 
 /* ===== APP ===== */
 .app{
-  width:360px;background:rgba(0,0,0,.65);border-radius:25px;
-  padding:0 15px 25px;box-shadow:0 0 40px rgba(0,0,0,.7);
-  text-align:center;position:relative;overflow:hidden;
+  width:360px;
+  background:rgba(0,0,0,.65);
+  backdrop-filter:blur(14px);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:25px;
+  padding:0 15px 25px;
+  box-shadow:0 0 40px rgba(0,0,0,.7);
+  text-align:center;
+  position:relative;
+  overflow:hidden;
 }
 .app::before{
   content:"";position:absolute;top:0;left:0;width:100%;height:80px;
   background:radial-gradient(ellipse at top,rgba(255,255,255,.25),transparent)
 }
+.app::after{
+  content:"";position:absolute;inset:0;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Crect width='120' height='120' fill='rgba(255,255,255,0.015)'/%3E%3C/svg%3E");
+  pointer-events:none;
+}
+
 .linea-superior{
   width:60%;height:2px;margin:10px auto 6px;
   background:linear-gradient(90deg,transparent,rgba(255,255,255,.8),transparent)
 }
 
-/* fecha y hora */
 .datetime{
   font-size:.85rem;color:#eaeaea;margin-top:8px;
   text-shadow:0 0 6px rgba(255,255,255,.4)
 }
-.datetime span{margin:0 6px}
 
 .titulo{
-  font-size:1.6rem;font-weight:bold;color:#fff;
-  text-shadow:0 0 12px rgba(255,255,255,.8);margin-top:6px
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  font-size:1.35rem;
+  font-weight:bold;
+  color:#fff;
+  margin-top:6px;
 }
 
 .ruleta-container{
   position:relative;width:280px;height:280px;
-  margin:10px auto 20px;
+  margin:12px auto 20px;
   transition:transform .6s ease;
 }
-.ruleta-container.zoom{
-  transform:scale(1.06);
-}
+.ruleta-container.zoom{transform:scale(1.06)}
 
 .flecha{
   position:absolute;top:-2px;left:50%;transform:translateX(-50%);
-  width:0;height:0;border-left:14px solid transparent;
-  border-right:14px solid transparent;border-top:24px solid #fff
+  width:0;height:0;
+  border-left:14px solid transparent;
+  border-right:14px solid transparent;
+  border-top:24px solid #ffd700;
+  filter:drop-shadow(0 0 6px rgba(255,215,0,.8));
 }
-canvas{width:100%;height:100%;border-radius:50%;background:#fff}
+
+canvas{
+  width:100%;height:100%;border-radius:50%;
+  box-shadow:
+    0 10px 30px rgba(0,0,0,.6),
+    inset 0 0 12px rgba(255,255,255,.25);
+  background:#fff;
+}
 
 button{
   width:85%;padding:14px;font-size:1.1rem;border-radius:30px;border:none;
-  background:linear-gradient(45deg,#ff9f00,#ff6a00);color:#fff;font-weight:bold
+  background:linear-gradient(45deg,#ff9f00,#ff6a00);
+  color:#fff;font-weight:bold;
+  box-shadow:
+    0 6px 18px rgba(255,106,0,.6),
+    inset 0 1px 1px rgba(255,255,255,.4);
+  transition:.25s;
 }
+button:active{transform:scale(.96)}
 
-/* ===== CARD GANADOR PRO ===== */
+/* ===== OVERLAY ===== */
 .overlay{
   position:absolute;inset:0;
   background:rgba(0,0,0,.65);
@@ -108,52 +135,33 @@ button{
   padding:26px 30px;
   text-align:center;
   color:#fff;
-  box-shadow:0 0 30px rgba(0,0,0,.9);
-  transform:scale(.85);
-  animation:pop .4s forwards;
+  box-shadow:
+    0 0 40px rgba(255,215,0,.25),
+    0 0 90px rgba(0,0,0,.9);
+  animation:pulse .6s ease;
 }
-@keyframes pop{to{transform:scale(1)}}
-
-.card h2{margin:0 0 10px;font-size:1.1rem;opacity:.8}
-.card .winner{font-size:1.8rem;font-weight:bold;margin:8px 0}
-.card .datetime-card{font-size:.85rem;opacity:.7;margin-top:6px}
-.card .foot{font-size:.75rem;opacity:.5;margin-top:4px}
+@keyframes pulse{
+  0%{transform:scale(1)}
+  50%{transform:scale(1.02)}
+  100%{transform:scale(1)}
+}
+.card .winner{
+  font-size:1.8rem;
+  font-weight:bold;
+  color:#ffd700;
+  text-shadow:0 0 10px rgba(255,215,0,.8);
+}
+.card .foot{font-size:.75rem;opacity:.5}
 </style>
 </head>
 
 <body>
 
 <div class="wrapper">
-
-  <!-- AD IZQ -->
-  <div class="fake-ad">
-    <div class="ad-header">Ad • Sponsored</div>
-    <div class="ad-company" id="lc">
-      <div class="ad-icon"></div>
-      <div class="ad-title"></div>
-      <div class="ad-sub"></div>
-    </div>
-    <div class="ad-video" id="lv" style="opacity:0">
-      <div class="video">
-        <div class="video-frame frame1"></div>
-        <div class="video-frame frame2" style="opacity:0"></div>
-      </div>
-      <div class="progress"><span></span></div>
-      <div class="ad-sub">Loading video…</div>
-    </div>
-  </div>
-
-  <!-- APP -->
   <div class="app">
     <div class="linea-superior"></div>
-
-    <div class="datetime">
-      <span id="fecha"></span>
-      <span>⏰</span>
-      <span id="hora"></span>
-    </div>
-
-    <div class="titulo">PÁGINA DE SORTEOS</div>
+    <div class="datetime"><span id="fecha"></span> ⏰ <span id="hora"></span></div>
+    <div class="titulo">Página de Sorteos</div>
 
     <div class="ruleta-container" id="ruletaBox">
       <div class="flecha"></div>
@@ -162,39 +170,17 @@ button{
 
     <button id="girar">GIRAR</button>
 
-    <!-- OVERLAY GANADOR -->
     <div class="overlay" id="overlay">
       <div class="card">
         <h2>🏆 RESULTADO FINAL</h2>
-        <div class="winner">GIME3471</div>
-        <div class="datetime-card" id="fechaResultado"></div>
-        <div class="foot">Sorteo validado</div>
+        <div class="winner" id="winnerName">GIME3471</div>
+        <div class="foot" id="fechaResultado"></div>
       </div>
     </div>
   </div>
-
-  <!-- AD DER -->
-  <div class="fake-ad">
-    <div class="ad-header">Ad • Sponsored</div>
-    <div class="ad-company" id="rc">
-      <div class="ad-icon"></div>
-      <div class="ad-title"></div>
-      <div class="ad-sub"></div>
-    </div>
-    <div class="ad-video" id="rv" style="opacity:0">
-      <div class="video">
-        <div class="video-frame frame1"></div>
-        <div class="video-frame frame2" style="opacity:0"></div>
-      </div>
-      <div class="progress"><span></span></div>
-      <div class="ad-sub">Preparing content…</div>
-    </div>
-  </div>
-
 </div>
 
 <script>
-/* FECHA Y HORA */
 function actualizarHora(){
   const a=new Date();
   fecha.textContent=a.toLocaleDateString("es-AR");
@@ -202,75 +188,10 @@ function actualizarHora(){
 }
 setInterval(actualizarHora,1000);actualizarHora();
 
-/* ADS */
-const ads=[
- {t:"NEXA SYSTEMS",s:"Mobile Solutions"},
- {t:"ORBITAL LABS",s:"Smart Apps"},
- {t:"ZENIX TECH",s:"Cloud Services"},
- {t:"AURORA SOFT",s:"Digital Tools"}
-];
-let ai=0,showVideo=false;
-function rotarAds(){
-  const lc=document.getElementById("lc"),lv=document.getElementById("lv"),
-        rc=document.getElementById("rc"),rv=document.getElementById("rv");
-  if(showVideo){
-    lc.style.opacity=rc.style.opacity=1;
-    lv.style.opacity=rv.style.opacity=0;
-    lc.querySelector(".ad-title").textContent=ads[ai%ads.length].t;
-    lc.querySelector(".ad-sub").textContent=ads[ai%ads.length].s;
-    rc.querySelector(".ad-title").textContent=ads[(ai+1)%ads.length].t;
-    rc.querySelector(".ad-sub").textContent=ads[(ai+1)%ads.length].s;
-    ai++;
-  }else{
-    lc.style.opacity=rc.style.opacity=0;
-    lv.style.opacity=rv.style.opacity=1;
-  }
-  showVideo=!showVideo;
-}
-setInterval(rotarAds,6000);rotarAds();
-
-/* PARTICIPANTES */
-const baseParticipantes=[
-  "GISE2145","GISE2145","DAI4239","DAI4239","MILAGROS3140",
-  "KARY8538","KARY8538","MELI123","TOMAS4392","TOMAS4392","SOFY0405",
-  "ROBER51B","ROBER51B","ROBER51B","ROBER51B","ROBER51B",
-  "ROBER51B","ROBER51B","ROBER51B","ROBER51B","ROBER51B",
-  "MALE3515","MALE3515","MALE3515","MALE3515","MALE3515",
-  "MALE3515","MALE3515","MALE3515","MALE3515","MALE3515",
-  "MALE3515","MALE3515","MALE3515","MALE3515","MALE3515",
-  "MALE3515","MALE3515","MALE3515","MALE3515","MALE3515",
-  "EUGE3362","MELANY7867",
-  "CELIA5176","CELIA5176","CELIA5176",
-  "ALE7152","ALE7152","ALE7152",
-  "GER557","GER557","GER557","GER557","GER557","GER557",
-  "GER557","GER557","GER557","GER557","GER557","GER557",
-  "TIHAGO1290","TIHAGO1290","TIHAGO1290","TIHAGO1290","TIHAGO1290",
-  "TIHAGO1290","TIHAGO1290","TIHAGO1290","TIHAGO1290","TIHAGO1290",
-  "TIHAGO1290","TIHAGO1290","TIHAGO1290","TIHAGO1290","TIHAGO1290",
-  "ROSBILAT","AINARA8437","MABEL5430","NATI4774",
-  "MARIELA0711","MARIELA0711","CRIS0966","CRIS0966",
-  "NOEMI3287","NICO2072","KAREN6558","JASMIN2544",
-  "TAMARA0846","PAO3577","MONICA8933","NAZA7611","EV4758",
-  "KARINA3941","GABI2698","JORGE6017",
-  "YANNI3932","YANNI3932","SANDRA6551",
-  "GIME3471","GIME3471","GIME3471","GIME3471","GIME3471","GIME3471",
-  "GIME3471","GIME3471","GIME3471","GIME3471","GIME3471","GIME3471",
-  "YOHANA0608","ceci6655"
-];
-
-function intercalar(l){
-  const c={},r=[];l.forEach(n=>c[n]=(c[n]||0)+1);
-  let k=Object.keys(c),ok=true;
-  while(ok){ok=false;for(const n of k){if(c[n]>0){r.push(n);c[n]--;ok=true}}}
-  return r;
-}
-const participantes=intercalar(baseParticipantes);
-
-/* RULETA */
+const participantes=["GIME3471","GIME3471","GIME3471","GIME3471"];
 const canvas=document.getElementById("ruleta"),ctx=canvas.getContext("2d");
-const boton=document.getElementById("girar");
 const total=participantes.length,radio=canvas.width/2;
-const colores=["#ff595e","#ffca3a","#8ac926","#1982c4","#6a4c93","#ff924c"];
+const colores=["#ff595e","#ffca3a","#8ac926","#1982c4"];
 let ang=0,gir=false;
 
 function draw(){
@@ -286,10 +207,9 @@ function draw(){
 }
 draw();
 
-boton.onclick=()=>{
+girar.onclick=()=>{
   if(gir)return;gir=true;
-
-  const idx=participantes.indexOf("GIME3471");
+  const idx=0;
   const g=360/total;
   const fin=ang+6*360+(270-(idx*g+g/2));
   const ini=performance.now(),dur=5000,ia=ang;
@@ -301,23 +221,13 @@ boton.onclick=()=>{
     ctx.save();ctx.translate(radio,radio);
     ctx.rotate(ang*Math.PI/180);ctx.translate(-radio,-radio);
     draw();ctx.restore();
-
     if(p<1)requestAnimationFrame(anim);
     else{
-      /* ZOOM SUAVE */
       ruletaBox.classList.add("zoom");
-
-      /* FECHA Y HORA EN CARD */
-      const ahora=new Date();
-      fechaResultado.textContent=
-        ahora.toLocaleDateString("es-AR")+" · "+
-        ahora.toLocaleTimeString("es-AR",{hour12:false})+" (GMT-3)";
-
-      /* CARD */
-      setTimeout(()=>{
-        overlay.classList.add("show");
-        gir=false;
-      },700);
+      const a=new Date();
+      fechaResultado.textContent=a.toLocaleString("es-AR");
+      overlay.classList.add("show");
+      gir=false;
     }
   }
   requestAnimationFrame(anim);
