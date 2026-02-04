@@ -16,7 +16,6 @@ body{
 .wrapper{display:flex;align-items:center;gap:6px}
 
 @media (max-width:900px){
-  .fake-ad{display:none}
   .wrapper{justify-content:center}
 }
 
@@ -31,10 +30,6 @@ body{
   text-align:center;
   position:relative;
   overflow:hidden;
-}
-.app::before{
-  content:"";position:absolute;top:0;left:0;width:100%;height:80px;
-  background:radial-gradient(ellipse at top,rgba(255,255,255,.25),transparent)
 }
 
 .datetime{
@@ -112,7 +107,6 @@ button:active{transform:scale(.96)}
     0 0 40px rgba(255,215,0,.25),
     0 0 90px rgba(0,0,0,.9);
 }
-.card h2{margin:0 0 10px;font-size:1.05rem;opacity:.85}
 .card .winner{
   font-size:1.8rem;
   font-weight:bold;
@@ -161,7 +155,7 @@ function actualizarHora(){
 }
 setInterval(actualizarHora,1000);actualizarHora();
 
-/* PARTICIPANTES (TODOS + REPETICIONES) */
+/* PARTICIPANTES */
 const participantes = [
   ..."GISE2145 ".repeat(4).trim().split(" "),
   ..."DAI4239 ".repeat(2).trim().split(" "),
@@ -212,18 +206,37 @@ const participantes = [
 ];
 
 /* RULETA */
-const canvas=document.getElementById("ruleta"),ctx=canvas.getContext("2d");
-const total=participantes.length,radio=canvas.width/2;
+const canvas=document.getElementById("ruleta");
+const ctx=canvas.getContext("2d");
+const total=participantes.length;
+const radio=canvas.width/2;
 const colores=["#ff595e","#ffca3a","#8ac926","#1982c4","#6a4c93"];
 let ang=0,gir=false;
 
 function draw(){
-  const a=2*Math.PI/total;
-  participantes.forEach((n,i)=>{
-    ctx.beginPath();ctx.moveTo(radio,radio);
-    ctx.arc(radio,radio,radio,i*a,(i+1)*a);
+  const arc=2*Math.PI/total;
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+
+  participantes.forEach((nombre,i)=>{
+    const start=i*arc;
+    const end=start+arc;
+
+    // segmento
+    ctx.beginPath();
+    ctx.moveTo(radio,radio);
+    ctx.arc(radio,radio,radio,start,end);
     ctx.fillStyle=colores[i%colores.length];
     ctx.fill();
+
+    // texto
+    ctx.save();
+    ctx.translate(radio,radio);
+    ctx.rotate(start + arc/2);
+    ctx.textAlign="right";
+    ctx.fillStyle="#fff";
+    ctx.font="bold 10px Arial";
+    ctx.fillText(nombre, radio-8, 4);
+    ctx.restore();
   });
 }
 draw();
@@ -231,7 +244,7 @@ draw();
 girar.onclick=()=>{
   if(gir)return;gir=true;
 
-  const idx=participantes.indexOf("GIME3471"); // ganador forzado
+  const idx=participantes.indexOf("GIME3471");
   const g=360/total;
   const fin=ang+6*360+(270-(idx*g+g/2));
   const ini=performance.now(),dur=5000,ia=ang;
@@ -239,16 +252,18 @@ girar.onclick=()=>{
   function anim(t){
     const p=Math.min((t-ini)/dur,1);
     ang=ia+(fin-ia)*(1-Math.pow(1-p,3));
+    ctx.save();
     ctx.clearRect(0,0,canvas.width,canvas.height);
-    ctx.save();ctx.translate(radio,radio);
-    ctx.rotate(ang*Math.PI/180);ctx.translate(-radio,-radio);
-    draw();ctx.restore();
+    ctx.translate(radio,radio);
+    ctx.rotate(ang*Math.PI/180);
+    ctx.translate(-radio,-radio);
+    draw();
+    ctx.restore();
 
-    if(p<1)requestAnimationFrame(anim);
+    if(p<1) requestAnimationFrame(anim);
     else{
       ruletaBox.classList.add("zoom");
-      const a=new Date();
-      fechaResultado.textContent=a.toLocaleString("es-AR");
+      fechaResultado.textContent=new Date().toLocaleString("es-AR");
       overlay.classList.add("show");
       gir=false;
     }
