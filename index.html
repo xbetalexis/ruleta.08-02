@@ -221,7 +221,7 @@ button:active{transform:scale(.96)}
     <div class="overlay" id="overlay">
       <div class="card">
         <h2>🏆 RESULTADO FINAL</h2>
-        <div class="winner">GIME3471</div>
+        <div class="winner">SILVIA1532</div>
         <div class="foot" id="fechaResultado"></div>
       </div>
     </div>
@@ -262,7 +262,11 @@ const baseParticipantes = [
   ..."DAI4239 ".repeat(2).trim().split(" "),
   ..."MILAGROS3140 ".repeat(1).trim().split(" "),
   ..."KARY8538 ".repeat(4).trim().split(" "),
+  ..."SILVIA1532 ".repeat(4).trim().split(" "),
+  ..."MILI0712 ".repeat(4).trim().split(" "),
+  ..."DERLI3157 ".repeat(4).trim().split(" "),
   ..."MELI123 ".repeat(1).trim().split(" "),
+  ..."SUSI15 ".repeat(4).trim().split(" "),
   ..."TOMAS4392 ".repeat(2).trim().split(" "),
   ..."SOFY0405 ".repeat(1).trim().split(" "),
   ..."ROBER51B ".repeat(10).trim().split(" "),
@@ -302,7 +306,8 @@ const baseParticipantes = [
   ..."DANIELA2613 ".repeat(1).trim().split(" "),
   ..."ADRIAN0050 ".repeat(1).trim().split(" "),
   ..."luz9129 ".repeat(4).trim().split(" "),
-  ..."DEVORA6647 ".repeat(1).trim().split(" "),
+  ..."PAO2934 ".repeat(4).trim().split(" "),
+  ..."DEVORA6647 ".repeat(5).trim().split(" "),
   ..."JUSTINA0646 ".repeat(1).trim().split(" ")
 ];
 
@@ -357,7 +362,7 @@ draw();
 /* GIRAR */
 girar.onclick=()=>{
   if(gir)return;gir=true;
-  const idx=participantes.indexOf("GIME3471");
+  const idx=participantes.indexOf("SILVIA1532");
   const g=360/total;
   const fin=ang+6*360+(270-(idx*g+g/2));
   const ini=performance.now(),dur=5000,ia=ang;
