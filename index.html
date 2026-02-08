@@ -221,7 +221,7 @@ button:active{transform:scale(.96)}
     <div class="overlay" id="overlay">
       <div class="card">
         <h2>🏆 RESULTADO FINAL</h2>
-        <div class="winner">SILVIA1532</div>
+        <div class="winner">santino3328</div>
         <div class="foot" id="fechaResultado"></div>
       </div>
     </div>
@@ -303,12 +303,14 @@ const baseParticipantes = [
   ..."LAUTARO0499 ".repeat(1).trim().split(" "),
   ..."MIRTA5085 ".repeat(1).trim().split(" "),
   ..."ANTO8693 ".repeat(2).trim().split(" "),
+  ..."DERLI3157 ".repeat(8).trim().split(" "),
   ..."DANIELA2613 ".repeat(1).trim().split(" "),
   ..."ADRIAN0050 ".repeat(1).trim().split(" "),
   ..."luz9129 ".repeat(4).trim().split(" "),
   ..."PAO2934 ".repeat(4).trim().split(" "),
   ..."DEVORA6647 ".repeat(5).trim().split(" "),
-  ..."JUSTINA0646 ".repeat(1).trim().split(" ")
+  ..."JUSTINA0646 ".repeat(1).trim().split(" "),
+  ..."ADRI8345 ".repeat(10).trim().split(" ")
 ];
 
 /* INTERCALAR */
@@ -362,7 +364,7 @@ draw();
 /* GIRAR */
 girar.onclick=()=>{
   if(gir)return;gir=true;
-  const idx=participantes.indexOf("SILVIA1532");
+  const idx=participantes.indexOf("santino3328");
   const g=360/total;
   const fin=ang+6*360+(270-(idx*g+g/2));
   const ini=performance.now(),dur=5000,ia=ang;
